@@ -1,0 +1,9 @@
+{
+    "name": "snake",
+    "license": "ISC",
+    "deps": {
+        "moonbitlang/wasm4": {
+            "path": "../.."
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "import": [
+        "moonbitlang/wasm4/lib"
+    ],
+    "link": {
+        "wasm-gc": {
+            "exports": [
+                "start",
+                "upd:update"
+            ],
+            "export-memory-name": "memory"
+        },
+        "wasm": {
+            "exports": [
+                "start",
+                "upd:update"
+            ],
+            "export-memory-name": "memory"
+        }
+    }
+}

@@ -1,0 +1,3 @@
+target/
+.mooncakes/
+.moonbit-lsp.json
