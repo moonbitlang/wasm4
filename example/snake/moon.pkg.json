@@ -8,14 +8,21 @@
                 "start",
                 "upd:update"
             ],
-            "export-memory-name": "memory"
+            "import-memory": {
+                "module": "env",
+                "name": "memory"
+            }
         },
         "wasm": {
             "exports": [
                 "start",
                 "upd:update"
             ],
-            "export-memory-name": "memory"
+            "import-memory": {
+                "module": "env",
+                "name": "memory"
+            },
+            "heap-start-address": 6590
         }
     }
 }

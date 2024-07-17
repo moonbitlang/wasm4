@@ -5,7 +5,7 @@ This is an opinionated binding for [Wasm4](https://wasm4.org) in MoonBit.
 ## Prerequisites
 
 - MoonBit toolchain
-- [Node.js](https://nodejs.org/en) + [pnpm](https://pnpm.io/installation)
+- [Node.js](https://nodejs.org/en)
 
 ## Usage
 
@@ -14,17 +14,24 @@ This is an opinionated binding for [Wasm4](https://wasm4.org) in MoonBit.
 - Optionally export a function called `start` that will be executed once on
   initialization and export a function called `update` that will be executed at
   60Hz for the expected backend
+- Import a memory with the module of `env` and name of `memory`
 - Build with `moon build --target <wasm-gc or wasm>` with the respective backend
-- Execute `pnpx wasm4 run <target>.wasm`. The target should be located in
+- Execute `npx wasm4 run <target>.wasm`. The target should be located in
   `target/wasm/release/build/<package path>/<package name>.wasm` for wasm
   backend, or `target/wasm-gc/release/build/<package path>/<package name>.wasm`
-  for wasm-gc backend
-
-The browser should open automatically and display the game.
+  for wasm-gc backend. The browser should open automatically and display the
+  game. Enjoy
 
 ## Examples
 
-Follow the usage above.
+The snake example (adapted from the Wasm4 documentation) demonstrates the usage. You may execute
+
+```bash
+moon build --source-dir example/snake --target wasm
+npx wasm4 example/snake/target/wasm/release/build/snake.wasm
+```
+
+and enjoy the game.
 
 ## References
 
