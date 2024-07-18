@@ -25,7 +25,7 @@ jobs:
       - name: publish
         run: |
           rm -r example
-          echo "$env:SECRET" > ~/.moon/credentials.json
+          echo $SECRET > ~/.moon/credentials.json
           moon publish
           rm ~/.moon/credentials.json
         env:
