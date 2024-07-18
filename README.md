@@ -28,7 +28,7 @@ The snake example (adapted from the Wasm4 documentation) demonstrates the usage.
 
 ```bash
 moon build --source-dir example/snake --target wasm
-npx wasm4 example/snake/target/wasm/release/build/snake.wasm
+npx wasm4 run example/snake/target/wasm/release/build/snake.wasm
 ```
 
 and enjoy the game.
