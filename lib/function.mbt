@@ -115,7 +115,7 @@ pub fn rect(x : Int, y : Int, width : Int, height : Int) = "env" "rect"
 /// The font is 8x8 pixels per character  
 /// `DRAW_COLORS` color 1 is used as the text color, `DRAW_COLORS` color 2 is used as the background color.
 pub fn text(s : String, x : Int, y : Int) -> Unit {
-  let bytes = Bytes::make(s.length() * 4 + 1)
+  let bytes = Bytes::new(s.length() * 4 + 1)
   let mut offset = 0
   s.iter().each(fn { ch => offset += bytes.set_utf8_char(offset, ch) })
   text_ffi(get_addr(bytes), x, y)
@@ -317,7 +317,7 @@ pub fn disk_read(bytes : Bytes, size : UInt) -> Int {
 
 /// Prints a message to the debug console
 pub fn trace(s : String) -> Unit {
-  let bytes = Bytes::make(s.length() * 4 + 1)
+  let bytes = Bytes::new(s.length() * 4 + 1)
   let mut offset = 0
   s.iter().each(fn { ch => offset += bytes.set_utf8_char(offset, ch) })
   trace_ffi(get_addr(bytes))
