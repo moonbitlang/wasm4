@@ -19,8 +19,8 @@ fn bitset(origin : UInt, value : UInt, offset : UInt, width : UInt) -> UInt {
 }
 
 test "bitset" {
-  @test.eq(bitset(0xFFFFU, 0x0U, 0U, 4U), 0xFFF0U)!
-  @test.eq(bitset(0xFFFFU, 0x0U, 4U, 4U), 0xFF0FU)!
-  @test.eq(bitset(0xFFFFU, 0x0U, 8U, 4U), 0xF0FFU)!
-  @test.eq(bitset(0xFFFFU, 0x0U, 12U, 4U), 0x0FFFU)!
+  @test.eq!(bitset(0xFFFFU, 0x0U, 0U, 4U), 0xFFF0U)
+  @test.eq!(bitset(0xFFFFU, 0x0U, 4U, 4U), 0xFF0FU)
+  @test.eq!(bitset(0xFFFFU, 0x0U, 8U, 4U), 0xF0FFU)
+  @test.eq!(bitset(0xFFFFU, 0x0U, 12U, 4U), 0x0FFFU)
 }
