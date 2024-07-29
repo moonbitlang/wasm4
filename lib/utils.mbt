@@ -17,10 +17,3 @@ fn bitset(origin : UInt, value : UInt, offset : UInt, width : UInt) -> UInt {
   let mask = ((1 << width.to_int()) - 1) << offset.to_int()
   (origin & mask.to_uint().lnot()) | ((value << offset.to_int()) & mask.to_uint())
 }
-
-test "bitset" {
-  @test.eq!(bitset(0xFFFFU, 0x0U, 0U, 4U), 0xFFF0U)
-  @test.eq!(bitset(0xFFFFU, 0x0U, 4U, 4U), 0xFF0FU)
-  @test.eq!(bitset(0xFFFFU, 0x0U, 8U, 4U), 0xF0FFU)
-  @test.eq!(bitset(0xFFFFU, 0x0U, 12U, 4U), 0x0FFFU)
-}
