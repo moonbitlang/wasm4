@@ -19,7 +19,7 @@ pub struct Point {
 } derive(Eq)
 
 pub struct Snake {
-  body : @deque.Deque[Point]
+  body : @deque.T[Point]
   mut direction : Point
 }
 

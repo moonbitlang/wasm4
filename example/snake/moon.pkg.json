@@ -22,7 +22,7 @@
                 "module": "env",
                 "name": "memory"
             },
-            "heap-start-address": 6590
+            "heap-start-address": 6560
         }
     }
 }
