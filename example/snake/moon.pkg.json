@@ -1,6 +1,6 @@
 {
     "import": [
-        "moonbitlang/wasm4/lib"
+        "moonbitlang/wasm4"
     ],
     "link": {
         "wasm-gc": {

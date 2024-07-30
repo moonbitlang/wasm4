@@ -14,10 +14,10 @@
 //  limitations under the License.
 
 pub fn start() -> Unit {
-  @lib.set_palette(1, @lib.rgb(0xfbf7f3))
-  @lib.set_palette(2, @lib.rgb(0xe5b083))
-  @lib.set_palette(3, @lib.rgb(0x426e5d))
-  @lib.set_palette(4, @lib.rgb(0x20283d))
+  @wasm4.set_palette(1, @wasm4.rgb(0xfbf7f3))
+  @wasm4.set_palette(2, @wasm4.rgb(0xe5b083))
+  @wasm4.set_palette(3, @wasm4.rgb(0x426e5d))
+  @wasm4.set_palette(4, @wasm4.rgb(0x20283d))
 }
 
 let game : Game = Game::new()

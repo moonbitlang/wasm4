@@ -33,11 +33,11 @@ pub fn Snake::new() -> Snake {
 }
 
 pub fn draw(self : Snake) -> Unit {
-  @lib.set_draw_colors(4, index=2)
-  @lib.set_draw_colors(3)
-  self.body.iter().each(fn { { x, y } => @lib.rect(x * 8, y * 8, 8, 8) })
-  @lib.set_draw_colors(4)
-  self.body.front().map(fn { { x, y } => @lib.rect(x * 8, y * 8, 8, 8) })
+  @wasm4.set_draw_colors(4, index=2)
+  @wasm4.set_draw_colors(3)
+  self.body.iter().each(fn { { x, y } => @wasm4.rect(x * 8, y * 8, 8, 8) })
+  @wasm4.set_draw_colors(4)
+  self.body.front().map(fn { { x, y } => @wasm4.rect(x * 8, y * 8, 8, 8) })
   |> ignore
 }
 

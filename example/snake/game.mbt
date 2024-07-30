@@ -15,14 +15,14 @@
 
 let random : @random.RandomState = @random.init_state()
 
-let fruit : @lib.Sprite = @lib.sprite(
+let fruit : @wasm4.Sprite = @wasm4.sprite(
   b"\x00\xa0\x02\x00\x0e\xf0\x36\x5c\xd6\x57\xd5\x57\x35\x5c\x0f\xf0",
 )
 
 pub struct Game {
   snake : Snake
   mut frame_count : UInt
-  mut prev_gamepad : @lib.GamePad
+  mut prev_gamepad : @wasm4.GamePad
   mut fruit : Point
 }
 
@@ -30,7 +30,7 @@ pub fn Game::new() -> Game {
   {
     snake: Snake::new(),
     frame_count: 0,
-    prev_gamepad: @lib.GamePad::default(),
+    prev_gamepad: @wasm4.GamePad::default(),
     fruit: Point::{
       x: random.gen_int().abs() % 20,
       y: random.gen_int().abs() % 20,
@@ -42,12 +42,12 @@ pub fn update(self : Game) -> Unit {
   self.frame_count += 1
   self.input()
   if self.snake.is_dead() {
-    @lib.trace("Game Over...Or not?")
-    @lib.tone_note_mode(
-      (@lib.Note::new(60, bend=0), None),
-      @lib.ADSR::new(60),
-      @lib.ADSRVolume::new(100),
-      @lib.ToneFlag::new(),
+    @wasm4.trace("Game Over...Or not?")
+    @wasm4.tone_note_mode(
+      (@wasm4.Note::new(60, bend=0), None),
+      @wasm4.ADSR::new(60),
+      @wasm4.ADSRVolume::new(100),
+      @wasm4.ToneFlag::new(),
     )
   }
   if self.frame_count % 15 == 0 {
@@ -64,10 +64,10 @@ pub fn update(self : Game) -> Unit {
     }
   }
   self.snake.draw()
-  @lib.set_draw_colors(0, index=1)
-  @lib.set_draw_colors(2, index=2)
-  @lib.set_draw_colors(3, index=3)
-  @lib.set_draw_colors(4, index=4)
+  @wasm4.set_draw_colors(0, index=1)
+  @wasm4.set_draw_colors(2, index=2)
+  @wasm4.set_draw_colors(3, index=3)
+  @wasm4.set_draw_colors(4, index=4)
   fruit.blit(
     self.fruit.x * 8,
     self.fruit.y * 8,
@@ -78,7 +78,7 @@ pub fn update(self : Game) -> Unit {
 }
 
 pub fn input(self : Game) -> Unit {
-  let gamepad = @lib.get_gamepad()
+  let gamepad = @wasm4.get_gamepad()
   if gamepad != self.prev_gamepad {
     if gamepad.button_down {
       self.snake.down()
