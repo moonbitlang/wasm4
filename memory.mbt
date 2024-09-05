@@ -27,7 +27,7 @@ pub fn set_palette(index : UInt, color : Color) -> Unit {
     trace("Palette index out of range")
     panic()
   }
-  store_i32(address_PALETTE + (index.to_int() - 1) * 4, color.0.to_int())
+  store_i32(address_PALETTE + (index.reinterpret_as_int() - 1) * 4, color._.reinterpret_as_int())
 }
 
 /// Gets the color of the palette at the given index.
@@ -39,7 +39,7 @@ pub fn get_palette(index : UInt) -> Color {
     trace("Palette index out of range")
     panic()
   }
-  load_s32(address_PALETTE + (index.to_int() - 1) * 4).to_uint()
+  load_s32(address_PALETTE + (index.reinterpret_as_int() - 1) * 4).reinterpret_as_uint()
 }
 
 /// Sets the draw color at the given index.
@@ -53,7 +53,7 @@ pub fn set_draw_colors(palette : UInt, ~index : UInt = 1) -> Unit {
   }
   let current_color = get_draw_colors(index)
   let updated_color = bitset(current_color, palette, (index - 1U) * 4U, 4U)
-  store_i16(address_DRAW_COLORS, updated_color.to_int())
+  store_i16(address_DRAW_COLORS, updated_color.reinterpret_as_int())
 }
 
 /// Gets the draw color at the given index.
@@ -82,11 +82,11 @@ pub(readonly) struct GamePad {
 /// @param index the index of the gamepad to get, from 1 to 4 (inclusive)  
 /// @return the state of the gamepads
 pub fn get_gamepad(~index : UInt = 1) -> GamePad {
-  if index.to_int() > 4 {
+  if index.reinterpret_as_int() > 4 {
     trace("Gamepad index out of range")
     panic()
   }
-  let state = load_byte(address_GAMEPADS + index.to_int() - 1).to_int()
+  let state = load_byte(address_GAMEPADS + index.reinterpret_as_int() - 1).to_int()
   GamePad::{
     button_1: (state & 1) == 1,
     button_2: (state & 2) == 2,
@@ -109,7 +109,7 @@ pub(readonly) struct Mouse {
 /// 
 /// @return the state of the mouse
 pub fn get_mouse() -> Mouse {
-  let buttons = load_byte(address_MOUSE_BUTTONS).to_int().to_uint()
+  let buttons = load_byte(address_MOUSE_BUTTONS).to_int().reinterpret_as_uint()
   Mouse::{
     x: load_s16(address_MOUSE_X),
     y: load_s16(address_MOUSE_Y),
@@ -128,16 +128,16 @@ pub fn set_frame_buffer(index : UInt, palette : UInt) -> Unit {
     trace("Frame buffer index or palette index out of range")
     panic()
   }
-  let byte = load_byte(address_FRAMEBUFFER + index.to_int() / 4)
+  let byte = load_byte(address_FRAMEBUFFER + index.reinterpret_as_int() / 4)
   let new_byte = bitset(
-    byte.to_int().to_uint(),
+    byte.to_int().reinterpret_as_uint(),
     palette - 1,
     index % 4U * 2U,
     2U,
   )
   store_byte(
-    address_FRAMEBUFFER + index.to_int() / 4,
-    new_byte.to_int().to_byte(),
+    address_FRAMEBUFFER + index.reinterpret_as_int() / 4,
+    new_byte.reinterpret_as_int().to_byte(),
   )
 }
 
@@ -153,14 +153,14 @@ pub(readonly) struct Netplay {
 /// 
 /// @return the state of the netplay
 pub fn get_netplay() -> Netplay {
-  let flags = load_byte(address_NETPLAY).to_int().to_uint()
+  let flags = load_byte(address_NETPLAY).to_int().reinterpret_as_uint()
   Netplay::{ index: (flags & 0b11U) + 1, active: (flags & 4U) == 4U }
 }
 
 pub fn set_system_preserve_framebuffer(b : Bool) -> Unit {
   let flags = load_byte(address_SYSTEM_FLAGS)
   let new_flags = bitset(
-    flags.to_int().to_uint(),
+    flags.to_int().reinterpret_as_uint(),
     if b {
       1
     } else {
@@ -169,7 +169,7 @@ pub fn set_system_preserve_framebuffer(b : Bool) -> Unit {
     0U,
     1U,
   )
-  store_byte(address_SYSTEM_FLAGS, new_flags.to_int().to_byte())
+  store_byte(address_SYSTEM_FLAGS, new_flags.reinterpret_as_int().to_byte())
 }
 
 pub fn get_system_preserve_framebuffer() -> Bool {
@@ -180,7 +180,7 @@ pub fn get_system_preserve_framebuffer() -> Bool {
 pub fn set_system_hide_gamepad_overlay(b : Bool) -> Unit {
   let flags = load_byte(address_SYSTEM_FLAGS)
   let new_flags = bitset(
-    flags.to_int().to_uint(),
+    flags.to_int().reinterpret_as_uint(),
     if b {
       1
     } else {
@@ -189,7 +189,7 @@ pub fn set_system_hide_gamepad_overlay(b : Bool) -> Unit {
     1U,
     1U,
   )
-  store_byte(address_SYSTEM_FLAGS, new_flags.to_int().to_byte())
+  store_byte(address_SYSTEM_FLAGS, new_flags.reinterpret_as_int().to_byte())
 }
 
 pub fn get_system_hide_gamepad_overlay() -> Bool {

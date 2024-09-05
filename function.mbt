@@ -50,7 +50,7 @@ pub fn blit(
   height : Int,
   flags : BlitFlag
 ) -> Unit {
-  blit_ffi(get_addr(self.0), x, y, width, height, flags.to_int())
+  blit_ffi(get_addr(self._), x, y, width, height, flags.to_int())
   ignore(self)
 }
 
@@ -72,7 +72,7 @@ pub fn blit_sub(
   flags : BlitFlag
 ) -> Unit {
   blit_sub_ffi(
-    get_addr(self.0),
+    get_addr(self._),
     x,
     y,
     width,
@@ -301,7 +301,7 @@ pub fn disk_write(bytes : Bytes, size : UInt) -> Int {
     trace("Disk write size exceeds 1024 bytes")
     panic()
   }
-  diskw_ffi(get_addr(bytes), size.to_int())
+  diskw_ffi(get_addr(bytes), size.reinterpret_as_int())
 }
 
 /// Reads up to `size` bytes from persistent storage into `bytes`.
@@ -312,7 +312,7 @@ pub fn disk_read(bytes : Bytes, size : UInt) -> Int {
     trace("Disk write size exceeds 1024 bytes")
     panic()
   }
-  diskr_ffi(get_addr(bytes), size.to_int())
+  diskr_ffi(get_addr(bytes), size.reinterpret_as_int())
 }
 
 /// Prints a message to the debug console
