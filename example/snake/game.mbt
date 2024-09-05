@@ -13,7 +13,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-let random : @random.RandomState = @random.init_state()
+let random : @random.Rand = @random.new()
 
 let fruit : @wasm4.Sprite = @wasm4.sprite(
   b"\x00\xa0\x02\x00\x0e\xf0\x36\x5c\xd6\x57\xd5\x57\x35\x5c\x0f\xf0",
@@ -32,8 +32,8 @@ pub fn Game::new() -> Game {
     frame_count: 0,
     prev_gamepad: @wasm4.GamePad::default(),
     fruit: Point::{
-      x: random.gen_int().abs() % 20,
-      y: random.gen_int().abs() % 20,
+      x: random.int(~limit=20),
+      y: random.int(~limit=20),
     },
   }
 }
@@ -58,8 +58,8 @@ pub fn update(self : Game) -> Unit {
         None => ()
       }
       self.fruit = Point::{
-        x: random.gen_int().abs() % 20,
-        y: random.gen_int().abs() % 20,
+        x: random.int(limit=20),
+        y: random.int(limit=20),
       }
     }
   }
