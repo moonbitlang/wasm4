@@ -242,29 +242,26 @@ pub fn tone(
     (duration.release << 8) |
     duration.sustain
   let volume = (volume.peak << 8) | volume.sustain
-  let flags = (
-      (match flags.pan {
-        Center => 0U
-        Left => 1
-        Right => 2
-      }) <<
-      4
-    ) |
-    (
-      (match flags.mode {
-        Duty_1_8 => 0U
-        Duty_1_4 => 1
-        Duty_1_2 => 2
-        Duty_3_4 => 3
-      }) <<
-      2
-    ) |
-    (match flags.channel {
+  let flags = {
+    let pan = match flags.pan {
+      Center => 0U
+      Left => 1
+      Right => 2
+    }
+    let mode = match flags.mode {
+      Duty_1_8 => 0U
+      Duty_1_4 => 1
+      Duty_1_2 => 2
+      Duty_3_4 => 3
+    }
+    let channel = match flags.channel {
       Pulse1 => 0U
       Pulse2 => 1
       Triangle => 2
       Noise => 3
-    })
+    }
+    (pan << 4) | (mode << 2) | channel
+  }
   tone_ffi(frequency, duration, volume, flags)
 }
 
@@ -289,30 +286,26 @@ pub fn tone_note_mode(
     (duration.release << 8) |
     duration.sustain
   let volume = (volume.peak << 8) | volume.sustain
-  let flags = (
-      (match flags.pan {
-        Center => 0U
-        Left => 1
-        Right => 2
-      }) <<
-      4
-    ) |
-    (
-      (match flags.mode {
-        Duty_1_8 => 0U
-        Duty_1_4 => 1
-        Duty_1_2 => 2
-        Duty_3_4 => 3
-      }) <<
-      2
-    ) |
-    (match flags.channel {
+  let flags = {
+    let pan = match flags.pan {
+      Center => 0U
+      Left => 1
+      Right => 2
+    }
+    let mode = match flags.mode {
+      Duty_1_8 => 0U
+      Duty_1_4 => 1
+      Duty_1_2 => 2
+      Duty_3_4 => 3
+    }
+    let channel = match flags.channel {
       Pulse1 => 0U
       Pulse2 => 1
       Triangle => 2
       Noise => 3
-    }) |
-    0b1000000
+    }
+    (pan << 4) | (mode << 2) | channel | 0b1000000
+  }
   tone_ffi(frequency, duration, volume, flags)
 }
 
