@@ -14,6 +14,8 @@
 
 /// (origin and not mask) or (value shift left and mask)
 fn bitset(origin : UInt, value : UInt, offset : UInt, width : UInt) -> UInt {
-  let mask = ((1 << width.reinterpret_as_int()) - 1) << offset.reinterpret_as_int()
-  (origin & mask.reinterpret_as_uint().lnot()) | ((value << offset.reinterpret_as_int()) & mask.reinterpret_as_uint())
+  let mask = ((1 << width.reinterpret_as_int()) - 1) <<
+    offset.reinterpret_as_int()
+  (origin & mask.reinterpret_as_uint().lnot()) |
+  ((value << offset.reinterpret_as_int()) & mask.reinterpret_as_uint())
 }

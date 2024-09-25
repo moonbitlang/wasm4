@@ -30,8 +30,10 @@ pub struct BlitFlag {
 }
 
 fn to_int(self : BlitFlag) -> Int {
-  if self.one_bit_per_pixel { 0 } else { 1 } | if self.flip_x { 2 } else { 0 } |
-  if self.flip_y { 4 } else { 0 } | if self.rotate { 8 } else { 0 }
+  (if self.one_bit_per_pixel { 0 } else { 1 }) |
+  (if self.flip_x { 2 } else { 0 }) |
+  (if self.flip_y { 4 } else { 0 }) |
+  (if self.rotate { 8 } else { 0 })
 }
 
 /// Copies pixels to the framebuffer.
@@ -235,24 +237,34 @@ pub fn tone(
   flags : ToneFlag
 ) -> Unit {
   let frequency = frequency.0 | (frequency.1 << 16)
-  let duration = (duration.attack << 24) | (duration.decay << 16) | (duration.release <<
-    8) | duration.sustain
+  let duration = (duration.attack << 24) |
+    (duration.decay << 16) |
+    (duration.release << 8) |
+    duration.sustain
   let volume = (volume.peak << 8) | volume.sustain
-  let flags = (match flags.pan {
-      Center => 0U
-      Left => 1
-      Right => 2
-    } << 4) | (match flags.mode {
-      Duty_1_8 => 0U
-      Duty_1_4 => 1
-      Duty_1_2 => 2
-      Duty_3_4 => 3
-    } << 2) | match flags.channel {
+  let flags = (
+      (match flags.pan {
+        Center => 0U
+        Left => 1
+        Right => 2
+      }) <<
+      4
+    ) |
+    (
+      (match flags.mode {
+        Duty_1_8 => 0U
+        Duty_1_4 => 1
+        Duty_1_2 => 2
+        Duty_3_4 => 3
+      }) <<
+      2
+    ) |
+    (match flags.channel {
       Pulse1 => 0U
       Pulse2 => 1
       Triangle => 2
       Noise => 3
-    }
+    })
   tone_ffi(frequency, duration, volume, flags)
 }
 
@@ -269,26 +281,38 @@ pub fn tone_note_mode(
   flags : ToneFlag
 ) -> Unit {
   let higher_note = frequency.1.or({ note: 0, bend: 0 })
-  let frequency = frequency.0.note | (frequency.0.bend << 8) | ((higher_note.note |
-    (higher_note.bend << 8)) << 16)
-  let duration = (duration.attack << 24) | (duration.decay << 16) | (duration.release <<
-    8) | duration.sustain
+  let frequency = frequency.0.note |
+    (frequency.0.bend << 8) |
+    ((higher_note.note | (higher_note.bend << 8)) << 16)
+  let duration = (duration.attack << 24) |
+    (duration.decay << 16) |
+    (duration.release << 8) |
+    duration.sustain
   let volume = (volume.peak << 8) | volume.sustain
-  let flags = (match flags.pan {
-      Center => 0U
-      Left => 1
-      Right => 2
-    } << 4) | (match flags.mode {
-      Duty_1_8 => 0U
-      Duty_1_4 => 1
-      Duty_1_2 => 2
-      Duty_3_4 => 3
-    } << 2) | match flags.channel {
+  let flags = (
+      (match flags.pan {
+        Center => 0U
+        Left => 1
+        Right => 2
+      }) <<
+      4
+    ) |
+    (
+      (match flags.mode {
+        Duty_1_8 => 0U
+        Duty_1_4 => 1
+        Duty_1_2 => 2
+        Duty_3_4 => 3
+      }) <<
+      2
+    ) |
+    (match flags.channel {
       Pulse1 => 0U
       Pulse2 => 1
       Triangle => 2
       Noise => 3
-    } | 0b1000000
+    }) |
+    0b1000000
   tone_ffi(frequency, duration, volume, flags)
 }
 

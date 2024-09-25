@@ -27,7 +27,10 @@ pub fn set_palette(index : UInt, color : Color) -> Unit {
     trace("Palette index out of range")
     panic()
   }
-  store_i32(address_PALETTE + (index.reinterpret_as_int() - 1) * 4, color._.reinterpret_as_int())
+  store_i32(
+    address_PALETTE + (index.reinterpret_as_int() - 1) * 4,
+    color._.reinterpret_as_int(),
+  )
 }
 
 /// Gets the color of the palette at the given index.
