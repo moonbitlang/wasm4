@@ -340,3 +340,6 @@ pub fn trace(s : String) -> Unit {
   trace_ffi(get_addr(bytes))
   ignore(bytes)
 }
+
+pub let screen_width = 160U
+pub let screen_height = 160U

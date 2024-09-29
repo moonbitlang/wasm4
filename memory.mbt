@@ -46,29 +46,29 @@ pub fn get_palette(index : UInt) -> Color {
 }
 
 /// Sets the draw color at the given index.
-/// 
-/// @param index the index of the draw color to set, from 1 to 4 (inclusive)  
+///
+/// @param index the index of the draw color to set, from 1 to 4 (inclusive)
 /// @param palette the index of the palette to set the draw color to, from 1 to 4 (inclusive), or 0 for transparent
 pub fn set_draw_colors(palette : UInt, ~index : UInt = 1) -> Unit {
   if index == 0 || index > 4 || palette > 4 {
     trace("Draw color index or palette index out of range")
     panic()
   }
-  let current_color = get_draw_colors(index)
+  let current_color = load_u16(address_DRAW_COLORS)
   let updated_color = bitset(current_color, palette, (index - 1U) * 4U, 4U)
   store_i16(address_DRAW_COLORS, updated_color.reinterpret_as_int())
 }
 
 /// Gets the draw color at the given index.
-/// 
-/// @param index the index of the draw color to get, from 1 to 4 (inclusive)  
+///
+/// @param index the index of the draw color to get, from 1 to 4 (inclusive)
 /// @return the index of the palette that the draw color is set to
 pub fn get_draw_colors(index : UInt) -> UInt {
   if index == 0 || index > 4 {
     trace("Draw color index out of range")
     panic()
   }
-  load_u16(address_DRAW_COLORS)
+  bitget(load_u16(address_DRAW_COLORS), (index - 1U) * 4U, 4U)
 }
 
 pub(readonly) struct GamePad {
@@ -142,6 +142,26 @@ pub fn set_frame_buffer(index : UInt, palette : UInt) -> Unit {
     address_FRAMEBUFFER + index.reinterpret_as_int() / 4,
     new_byte.reinterpret_as_int().to_byte(),
   )
+}
+
+/// Get the palette index of the pixel at the specified index.
+///
+/// # Parameters
+///
+/// - `index` : The index of the frame buffer to retrieve. Must be a `UInt` and
+/// should be within the valid range of the frame buffer (0 to 160 * 160 - 1).
+///
+/// # Returns
+///
+/// - the index of the palette.
+
+pub fn get_frame_buffer(index : UInt) -> UInt {
+  if index >= 160U * 160U {
+    trace("Frame buffer index out of range")
+    panic()
+  }
+  let byte = load_byte(address_FRAMEBUFFER + index.reinterpret_as_int() / 4)
+  bitget(byte.to_int().reinterpret_as_uint(), index % 4U * 2U, 2U) + 1U
 }
 
 /// Status of netplay
