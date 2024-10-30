@@ -32,8 +32,8 @@ pub fn Game::new() -> Game {
     frame_count: 0,
     prev_gamepad: @wasm4.GamePad::default(),
     fruit: Point::{
-      x: random.int(~limit=20),
-      y: random.int(~limit=20),
+      x: random.int(limit=20),
+      y: random.int(limit=20),
     },
   }
 }
