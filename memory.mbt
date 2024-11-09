@@ -117,8 +117,8 @@ pub fn get_mouse() -> Mouse {
     x: load_s16(address_MOUSE_X),
     y: load_s16(address_MOUSE_Y),
     left: (buttons & 1U) == 1U,
-    middle: (buttons & 2U) == 2U,
-    right: (buttons & 4U) == 4U,
+    right: (buttons & 2U) == 2U,
+    middle: (buttons & 4U) == 4U,
   }
 }
 
