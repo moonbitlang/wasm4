@@ -19,3 +19,9 @@ fn bitset(origin : UInt, value : UInt, offset : UInt, width : UInt) -> UInt {
   (origin & mask.reinterpret_as_uint().lnot()) |
   ((value << offset.reinterpret_as_int()) & mask.reinterpret_as_uint())
 }
+
+fn bitget(origin : UInt, offset : UInt, width : UInt) -> UInt {
+  let mask = ((1 << width.reinterpret_as_int()) - 1) <<
+    offset.reinterpret_as_int()
+  (origin & mask.reinterpret_as_uint()) >> offset.reinterpret_as_int()
+}
