@@ -22,7 +22,7 @@ pub fn sprite(bytes : Bytes) -> Sprite {
 /// flip_x: flip the sprite horizontally
 /// flip_y: flip the sprite vertically
 /// rotate: rotate the sprite anti-clockwise 90 degrees, applied after any flipping
-pub struct BlitFlag {
+pub(all) struct BlitFlag {
   one_bit_per_pixel : Bool
   flip_x : Bool
   flip_y : Bool
@@ -149,9 +149,9 @@ pub(readonly) struct ADSR {
 /// Duration of each phase is specified in frames (1/60th of a second).
 pub fn ADSR::new(
   sustain : UInt,
-  ~release : UInt = 0,
-  ~decay : UInt = 0,
-  ~attack : UInt = 0
+  release~ : UInt = 0,
+  decay~ : UInt = 0,
+  attack~ : UInt = 0
 ) -> ADSR {
   { sustain, release, decay, attack }
 }
@@ -167,7 +167,7 @@ pub(readonly) struct ADSRVolume {
 /// The volume of an ADSR envelope
 /// 
 /// The volume used for the sustain duration, and the peak volume (default to 100 if zero) reached by the attack duration.
-pub fn ADSRVolume::new(sustain : UInt, ~peak : UInt = 100) -> ADSRVolume {
+pub fn ADSRVolume::new(sustain : UInt, peak~ : UInt = 100) -> ADSRVolume {
   { sustain, peak }
 }
 
@@ -184,7 +184,7 @@ pub(readonly) struct Note {
 /// 
 /// @param note Specified in MIDI note format, e.g. 60 = C4, 69 = A4.  
 /// @param bend Bend note upwards. 0 = Nothing, 255 = One 256th away from the next note above
-pub fn Note::new(note : UInt, ~bend : UInt = 0) -> Note {
+pub fn Note::new(note : UInt, bend~ : UInt = 0) -> Note {
   { note, bend }
 }
 
@@ -197,28 +197,28 @@ pub(readonly) struct ToneFlag {
 
 /// Flags that modify behavior of `tone`
 pub fn ToneFlag::new(
-  ~channel : ToneChannel = Pulse1,
-  ~mode : ToneMode = Duty_1_8,
-  ~pan : TonePan = Center
+  channel~ : ToneChannel = Pulse1,
+  mode~ : ToneMode = Duty_1_8,
+  pan~ : TonePan = Center
 ) -> ToneFlag {
   { channel, mode, pan }
 }
 
-pub enum ToneChannel {
+pub(all) enum ToneChannel {
   Pulse1
   Pulse2
   Triangle
   Noise
 }
 
-pub enum ToneMode {
+pub(all) enum ToneMode {
   Duty_1_8
   Duty_1_4
   Duty_1_2
   Duty_3_4
 }
 
-pub enum TonePan {
+pub(all) enum TonePan {
   Center
   Left
   Right
@@ -342,4 +342,5 @@ pub fn trace(s : String) -> Unit {
 }
 
 pub let screen_width = 160U
+
 pub let screen_height = 160U

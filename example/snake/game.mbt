@@ -19,7 +19,7 @@ let fruit : @wasm4.Sprite = @wasm4.sprite(
   b"\x00\xa0\x02\x00\x0e\xf0\x36\x5c\xd6\x57\xd5\x57\x35\x5c\x0f\xf0",
 )
 
-pub struct Game {
+pub(all) struct Game {
   snake : Snake
   mut frame_count : UInt
   mut prev_gamepad : @wasm4.GamePad
@@ -31,10 +31,7 @@ pub fn Game::new() -> Game {
     snake: Snake::new(),
     frame_count: 0,
     prev_gamepad: @wasm4.GamePad::default(),
-    fruit: Point::{
-      x: random.int(limit=20),
-      y: random.int(limit=20),
-    },
+    fruit: Point::{ x: random.int(limit=20), y: random.int(limit=20) },
   }
 }
 
@@ -57,10 +54,7 @@ pub fn update(self : Game) -> Unit {
         Some(pos) => self.snake.body.push_back(pos)
         None => ()
       }
-      self.fruit = Point::{
-        x: random.int(limit=20),
-        y: random.int(limit=20),
-      }
+      self.fruit = Point::{ x: random.int(limit=20), y: random.int(limit=20) }
     }
   }
   self.snake.draw()

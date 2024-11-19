@@ -13,12 +13,12 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-pub struct Point {
+pub(all) struct Point {
   x : Int
   y : Int
 } derive(Eq)
 
-pub struct Snake {
+pub(all) struct Snake {
   body : @deque.T[Point]
   mut direction : Point
 }
@@ -77,7 +77,10 @@ pub fn right(self : Snake) -> Unit {
 }
 
 pub fn is_dead(self : Snake) -> Bool {
-  self.body.iter().drop(1).find_first(
-    fn { point => point == self.body.front().unwrap() },
-  ).is_empty().not()
+  self.body
+  .iter()
+  .drop(1)
+  .find_first(fn { point => point == self.body.front().unwrap() })
+  .is_empty()
+  .not()
 }

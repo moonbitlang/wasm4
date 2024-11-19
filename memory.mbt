@@ -49,7 +49,7 @@ pub fn get_palette(index : UInt) -> Color {
 ///
 /// @param index the index of the draw color to set, from 1 to 4 (inclusive)
 /// @param palette the index of the palette to set the draw color to, from 1 to 4 (inclusive), or 0 for transparent
-pub fn set_draw_colors(palette : UInt, ~index : UInt = 1) -> Unit {
+pub fn set_draw_colors(palette : UInt, index~ : UInt = 1) -> Unit {
   if index == 0 || index > 4 || palette > 4 {
     trace("Draw color index or palette index out of range")
     panic()
@@ -84,7 +84,7 @@ pub(readonly) struct GamePad {
 /// 
 /// @param index the index of the gamepad to get, from 1 to 4 (inclusive)  
 /// @return the state of the gamepads
-pub fn get_gamepad(~index : UInt = 1) -> GamePad {
+pub fn get_gamepad(index~ : UInt = 1) -> GamePad {
   if index.reinterpret_as_int() > 4 {
     trace("Gamepad index out of range")
     panic()
