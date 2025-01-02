@@ -12,6 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
+///|
 fn get_addr(bytes : Bytes) -> Int {
   for i = 0; i < bytes.length(); i = i + 1 {
     store_byte(address_HEAP + i, bytes[i])
@@ -19,4 +20,5 @@ fn get_addr(bytes : Bytes) -> Int {
   address_HEAP
 }
 
+///|
 let address_HEAP = 0x19a0

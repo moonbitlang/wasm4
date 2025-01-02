@@ -12,13 +12,15 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
+///|
 type Sprite Bytes
 
+///|
 pub fn sprite(bytes : Bytes) -> Sprite {
   Sprite(bytes)
 }
 
-/// one_bit_per_pixel: Sprite pixel format: 1BPP or 2BPP
+///| one_bit_per_pixel: Sprite pixel format: 1BPP or 2BPP
 /// flip_x: flip the sprite horizontally
 /// flip_y: flip the sprite vertically
 /// rotate: rotate the sprite anti-clockwise 90 degrees, applied after any flipping
@@ -29,6 +31,7 @@ pub(all) struct BlitFlag {
   rotate : Bool
 }
 
+///|
 fn to_int(self : BlitFlag) -> Int {
   (if self.one_bit_per_pixel { 0 } else { 1 }) |
   (if self.flip_x { 2 } else { 0 }) |
@@ -36,7 +39,7 @@ fn to_int(self : BlitFlag) -> Int {
   (if self.rotate { 8 } else { 0 })
 }
 
-/// Copies pixels to the framebuffer.
+///| Copies pixels to the framebuffer.
 /// 
 /// @param spritePtr raw pixel data stored in either 1BPP or 2BPP format.
 /// @param x X position in the destination framebuffer.
@@ -56,7 +59,7 @@ pub fn blit(
   ignore(self)
 }
 
-/// Copies a subregion within a larger sprite atlas to the framebuffer. Same as blit, but with 3 additional parameters.
+///| Copies a subregion within a larger sprite atlas to the framebuffer. Same as blit, but with 3 additional parameters.
 /// 
 /// @param srcX Source X position of the sprite region.
 /// @param srcY Source Y position of the sprite region.
@@ -87,32 +90,32 @@ pub fn blit_sub(
   ignore(self)
 }
 
-/// Draws a line between two points
+///| Draws a line between two points
 /// 
 /// `DRAW_COLORS` color 1 is used as the line color
 pub fn line(x1 : Int, y1 : Int, x2 : Int, y2 : Int) = "env" "line"
 
-/// Draws a horizontal line between `(x, y)` and `(x + len - 1, y)`
+///| Draws a horizontal line between `(x, y)` and `(x + len - 1, y)`
 /// 
 /// `DRAW_COLORS` color 1 is used as the line color
 pub fn hline(x : Int, y : Int, len : Int) = "env" "hline"
 
-/// Draws a vertical line between `(x, y)` and `(x, y + len - 1)`
+///| Draws a vertical line between `(x, y)` and `(x, y + len - 1)`
 /// 
 /// `DRAW_COLORS` color 1 is used as the line color
 pub fn vline(x : Int, y : Int, len : Int) = "env" "vline"
 
-/// Draws an oval (or circle).
+///| Draws an oval (or circle).
 /// 
 /// `DRAW_COLORS` color 1 is used as the fill color, `DRAW_COLORS` color 2 is used as the outline color.
 pub fn oval(x : Int, y : Int, width : Int, height : Int) = "env" "oval"
 
-/// Draws a rectangle.
+///| Draws a rectangle.
 /// 
 /// `DRAW_COLORS` color 1 is used as the fill color, `DRAW_COLORS` color 2 is used as the outline color.
 pub fn rect(x : Int, y : Int, width : Int, height : Int) = "env" "rect"
 
-/// Draws text using the built-in system font. The string may contain new-line (`\n`) characters.
+///| Draws text using the built-in system font. The string may contain new-line (`\n`) characters.
 /// 
 /// The font is 8x8 pixels per character  
 /// `DRAW_COLORS` color 1 is used as the text color, `DRAW_COLORS` color 2 is used as the background color.
@@ -124,7 +127,7 @@ pub fn text(s : String, x : Int, y : Int) -> Unit {
   ignore(bytes)
 }
 
-/// An ADSR volume envelop
+///| An ADSR volume envelop
 /// 
 /// The envelope starts at zero volume, 
 /// then raises to the peak volume over the attack time, 
@@ -132,14 +135,14 @@ pub fn text(s : String, x : Int, y : Int) -> Unit {
 /// remains at the sustain volume during the sustain time, 
 /// and finally fades to zero volume during the release time.  
 /// Duration of each phase is specified in frames (1/60th of a second).
-pub(readonly) struct ADSR {
+pub struct ADSR {
   sustain : UInt
   release : UInt
   decay : UInt
   attack : UInt
 }
 
-/// An ADSR volume envelop
+///| An ADSR volume envelop
 /// 
 /// The envelope starts at zero volume, 
 /// then raises to the peak volume over the attack time, 
@@ -156,31 +159,31 @@ pub fn ADSR::new(
   { sustain, release, decay, attack }
 }
 
-/// The volume of an ADSR envelope
+///| The volume of an ADSR envelope
 /// 
 /// The volume used for the sustain duration, and the peak volume (default to 100 if zero) reached by the attack duration.
-pub(readonly) struct ADSRVolume {
+pub struct ADSRVolume {
   sustain : UInt
   peak : UInt
 }
 
-/// The volume of an ADSR envelope
+///| The volume of an ADSR envelope
 /// 
 /// The volume used for the sustain duration, and the peak volume (default to 100 if zero) reached by the attack duration.
 pub fn ADSRVolume::new(sustain : UInt, peak~ : UInt = 100) -> ADSRVolume {
   { sustain, peak }
 }
 
-/// Notes with pitch bend
+///| Notes with pitch bend
 /// 
 /// @param note Specified in MIDI note format, e.g. 60 = C4, 69 = A4.  
 /// @param bend Bend note upwards. 0 = Nothing, 255 = One 256th away from the next note above
-pub(readonly) struct Note {
+pub struct Note {
   note : UInt
   bend : UInt
 }
 
-/// Notes with pitch bend
+///| Notes with pitch bend
 /// 
 /// @param note Specified in MIDI note format, e.g. 60 = C4, 69 = A4.  
 /// @param bend Bend note upwards. 0 = Nothing, 255 = One 256th away from the next note above
@@ -188,14 +191,14 @@ pub fn Note::new(note : UInt, bend~ : UInt = 0) -> Note {
   { note, bend }
 }
 
-/// Flags that modify behavior of `tone`
-pub(readonly) struct ToneFlag {
+///| Flags that modify behavior of `tone`
+pub struct ToneFlag {
   channel : ToneChannel
   mode : ToneMode
   pan : TonePan
 }
 
-/// Flags that modify behavior of `tone`
+///| Flags that modify behavior of `tone`
 pub fn ToneFlag::new(
   channel~ : ToneChannel = Pulse1,
   mode~ : ToneMode = Duty_1_8,
@@ -204,6 +207,7 @@ pub fn ToneFlag::new(
   { channel, mode, pan }
 }
 
+///|
 pub(all) enum ToneChannel {
   Pulse1
   Pulse2
@@ -211,6 +215,7 @@ pub(all) enum ToneChannel {
   Noise
 }
 
+///|
 pub(all) enum ToneMode {
   Duty_1_8
   Duty_1_4
@@ -218,13 +223,14 @@ pub(all) enum ToneMode {
   Duty_3_4
 }
 
+///|
 pub(all) enum TonePan {
   Center
   Left
   Right
 }
 
-/// Plays a sound tone
+///| Plays a sound tone
 /// 
 /// @param frequency Start frequency and optional end frequency presented in hertz  
 /// @param duration Duration of the tone in frames (1/60th of a second), up to 255 frames for each phase  
@@ -265,7 +271,7 @@ pub fn tone(
   tone_ffi(frequency, duration, volume, flags)
 }
 
-/// Plays a sound tone in note mode
+///| Plays a sound tone in note mode
 /// 
 /// @param frequency Start frequency and optional end frequency presented in MIDI note  
 /// @param duration Duration of the tone in frames (1/60th of a second), up to 255 frames for each phase  
@@ -309,7 +315,7 @@ pub fn tone_note_mode(
   tone_ffi(frequency, duration, volume, flags)
 }
 
-/// Writes up to `size` bytes from `bytes` into persistent storage.
+///| Writes up to `size` bytes from `bytes` into persistent storage.
 ///
 /// Any previously saved data on the disk is replaced.
 /// @return the number of bytes written, which may be less than `size`.
@@ -321,7 +327,7 @@ pub fn disk_write(bytes : Bytes, size : UInt) -> Int {
   diskw_ffi(get_addr(bytes), size.reinterpret_as_int())
 }
 
-/// Reads up to `size` bytes from persistent storage into `bytes`.
+///| Reads up to `size` bytes from persistent storage into `bytes`.
 /// 
 /// @return the number of bytes read, which may be less than `size`
 pub fn disk_read(bytes : Bytes, size : UInt) -> Int {
@@ -332,7 +338,7 @@ pub fn disk_read(bytes : Bytes, size : UInt) -> Int {
   diskr_ffi(get_addr(bytes), size.reinterpret_as_int())
 }
 
-/// Prints a message to the debug console
+///| Prints a message to the debug console
 pub fn trace(s : String) -> Unit {
   let bytes = Bytes::new(s.length() * 4 + 1)
   let mut offset = 0
@@ -341,6 +347,8 @@ pub fn trace(s : String) -> Unit {
   ignore(bytes)
 }
 
+///|
 pub let screen_width = 160U
 
+///|
 pub let screen_height = 160U

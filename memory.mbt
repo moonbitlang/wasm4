@@ -12,13 +12,15 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
+///|
 type Color UInt
 
+///|
 pub fn rgb(color : UInt) -> Color {
   color
 }
 
-/// Sets the color of the palette at the given index.
+///| Sets the color of the palette at the given index.
 /// 
 /// @param index the index of the palette to set, from 1 to 4 (inclusive)  
 /// @param color the color to set
@@ -33,7 +35,7 @@ pub fn set_palette(index : UInt, color : Color) -> Unit {
   )
 }
 
-/// Gets the color of the palette at the given index.
+///| Gets the color of the palette at the given index.
 /// 
 /// @param index the index of the palette to get, from 1 to 4 (inclusive)  
 /// @return the color at the given index
@@ -45,7 +47,7 @@ pub fn get_palette(index : UInt) -> Color {
   load_s32(address_PALETTE + (index.reinterpret_as_int() - 1) * 4).reinterpret_as_uint()
 }
 
-/// Sets the draw color at the given index.
+///| Sets the draw color at the given index.
 ///
 /// @param index the index of the draw color to set, from 1 to 4 (inclusive)
 /// @param palette the index of the palette to set the draw color to, from 1 to 4 (inclusive), or 0 for transparent
@@ -59,7 +61,7 @@ pub fn set_draw_colors(palette : UInt, index~ : UInt = 1) -> Unit {
   store_i16(address_DRAW_COLORS, updated_color.reinterpret_as_int())
 }
 
-/// Gets the draw color at the given index.
+///| Gets the draw color at the given index.
 ///
 /// @param index the index of the draw color to get, from 1 to 4 (inclusive)
 /// @return the index of the palette that the draw color is set to
@@ -71,7 +73,8 @@ pub fn get_draw_colors(index : UInt) -> UInt {
   bitget(load_u16(address_DRAW_COLORS), (index - 1U) * 4U, 4U)
 }
 
-pub(readonly) struct GamePad {
+///|
+pub struct GamePad {
   button_1 : Bool
   button_2 : Bool
   button_left : Bool
@@ -80,7 +83,7 @@ pub(readonly) struct GamePad {
   button_down : Bool
 } derive(Eq, Default)
 
-/// Gets the state of the gamepads.
+///| Gets the state of the gamepads.
 /// 
 /// @param index the index of the gamepad to get, from 1 to 4 (inclusive)  
 /// @return the state of the gamepads
@@ -100,7 +103,8 @@ pub fn get_gamepad(index~ : UInt = 1) -> GamePad {
   }
 }
 
-pub(readonly) struct Mouse {
+///|
+pub struct Mouse {
   x : Int
   y : Int
   left : Bool
@@ -108,7 +112,7 @@ pub(readonly) struct Mouse {
   right : Bool
 } derive(Eq, Default)
 
-/// Gets the state of the mouse.
+///| Gets the state of the mouse.
 /// 
 /// @return the state of the mouse
 pub fn get_mouse() -> Mouse {
@@ -122,7 +126,7 @@ pub fn get_mouse() -> Mouse {
   }
 }
 
-/// Manipulate the framebuffer directly.
+///| Manipulate the framebuffer directly.
 /// 
 /// @param index the index of the pixel to set, from 0 to 160 * 160 (exclusive)  
 /// @param palette the index of the palette to set the pixel to, from 1 to 4 (inclusive)
@@ -144,7 +148,7 @@ pub fn set_frame_buffer(index : UInt, palette : UInt) -> Unit {
   )
 }
 
-/// Get the palette index of the pixel at the specified index.
+///| Get the palette index of the pixel at the specified index.
 ///
 /// # Parameters
 ///
@@ -154,7 +158,6 @@ pub fn set_frame_buffer(index : UInt, palette : UInt) -> Unit {
 /// # Returns
 ///
 /// - the index of the palette.
-
 pub fn get_frame_buffer(index : UInt) -> UInt {
   if index >= 160U * 160U {
     trace("Frame buffer index out of range")
@@ -164,15 +167,15 @@ pub fn get_frame_buffer(index : UInt) -> UInt {
   bitget(byte.to_int().reinterpret_as_uint(), index % 4U * 2U, 2U) + 1U
 }
 
-/// Status of netplay
+///| Status of netplay
 /// 
 /// The index is from 1 to 4 (inclusive)
-pub(readonly) struct Netplay {
+pub struct Netplay {
   index : UInt
   active : Bool
 }
 
-/// Gets the state of the netplay.
+///| Gets the state of the netplay.
 /// 
 /// @return the state of the netplay
 pub fn get_netplay() -> Netplay {
@@ -180,6 +183,7 @@ pub fn get_netplay() -> Netplay {
   Netplay::{ index: (flags & 0b11U) + 1, active: (flags & 4U) == 4U }
 }
 
+///|
 pub fn set_system_preserve_framebuffer(b : Bool) -> Unit {
   let flags = load_byte(address_SYSTEM_FLAGS)
   let new_flags = bitset(
@@ -195,11 +199,13 @@ pub fn set_system_preserve_framebuffer(b : Bool) -> Unit {
   store_byte(address_SYSTEM_FLAGS, new_flags.reinterpret_as_int().to_byte())
 }
 
+///|
 pub fn get_system_preserve_framebuffer() -> Bool {
   let flags = load_byte(address_SYSTEM_FLAGS)
   (flags.to_int() & 1) == 1
 }
 
+///|
 pub fn set_system_hide_gamepad_overlay(b : Bool) -> Unit {
   let flags = load_byte(address_SYSTEM_FLAGS)
   let new_flags = bitset(
@@ -215,6 +221,7 @@ pub fn set_system_hide_gamepad_overlay(b : Bool) -> Unit {
   store_byte(address_SYSTEM_FLAGS, new_flags.reinterpret_as_int().to_byte())
 }
 
+///|
 pub fn get_system_hide_gamepad_overlay() -> Bool {
   let flags = load_byte(address_SYSTEM_FLAGS)
   (flags.to_int() & 2) == 2

@@ -12,5 +12,6 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
+///|
 extern "wasm" fn get_addr(bytes : Bytes) -> Int =
   #|(func (param i32) (result i32) (call $moonbit.decref (local.get 0)) (i32.add (local.get 0) (i32.const 8)))
