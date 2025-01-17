@@ -13,7 +13,7 @@
 //  limitations under the License.
 
 ///|
-fn get_addr(bytes : Bytes) -> Int {
+fn get_addr(bytes : FixedArray[Byte]) -> Int {
   for i = 0; i < bytes.length(); i = i + 1 {
     store_byte(address_HEAP + i, bytes[i])
   }

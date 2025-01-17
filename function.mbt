@@ -13,10 +13,10 @@
 //  limitations under the License.
 
 ///|
-type Sprite Bytes
+type Sprite FixedArray[Byte]
 
 ///|
-pub fn sprite(bytes : Bytes) -> Sprite {
+pub fn sprite(bytes : FixedArray[Byte]) -> Sprite {
   Sprite(bytes)
 }
 
@@ -120,7 +120,7 @@ pub fn rect(x : Int, y : Int, width : Int, height : Int) = "env" "rect"
 /// The font is 8x8 pixels per character  
 /// `DRAW_COLORS` color 1 is used as the text color, `DRAW_COLORS` color 2 is used as the background color.
 pub fn text(s : String, x : Int, y : Int) -> Unit {
-  let bytes = Bytes::new(s.length() * 4 + 1)
+  let bytes = FixedArray::make(s.length() * 4 + 1, Byte::default())
   let mut offset = 0
   s.iter().each(fn { ch => offset += bytes.set_utf8_char(offset, ch) })
   text_ffi(get_addr(bytes), x, y)
@@ -319,7 +319,7 @@ pub fn tone_note_mode(
 ///
 /// Any previously saved data on the disk is replaced.
 /// @return the number of bytes written, which may be less than `size`.
-pub fn disk_write(bytes : Bytes, size : UInt) -> Int {
+pub fn disk_write(bytes : FixedArray[Byte], size : UInt) -> Int {
   if size > 1024 {
     trace("Disk write size exceeds 1024 bytes")
     panic()
@@ -330,7 +330,7 @@ pub fn disk_write(bytes : Bytes, size : UInt) -> Int {
 ///| Reads up to `size` bytes from persistent storage into `bytes`.
 /// 
 /// @return the number of bytes read, which may be less than `size`
-pub fn disk_read(bytes : Bytes, size : UInt) -> Int {
+pub fn disk_read(bytes : FixedArray[Byte], size : UInt) -> Int {
   if size > 1024 {
     trace("Disk write size exceeds 1024 bytes")
     panic()
@@ -340,7 +340,7 @@ pub fn disk_read(bytes : Bytes, size : UInt) -> Int {
 
 ///| Prints a message to the debug console
 pub fn trace(s : String) -> Unit {
-  let bytes = Bytes::new(s.length() * 4 + 1)
+  let bytes = FixedArray::make(s.length() * 4 + 1, Byte::default())
   let mut offset = 0
   s.iter().each(fn { ch => offset += bytes.set_utf8_char(offset, ch) })
   trace_ffi(get_addr(bytes))
