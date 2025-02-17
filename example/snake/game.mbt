@@ -13,12 +13,15 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
+///|
 let random : @random.Rand = @random.new()
 
+///|
 let fruit : @wasm4.Sprite = @wasm4.sprite(
   b"\x00\xa0\x02\x00\x0e\xf0\x36\x5c\xd6\x57\xd5\x57\x35\x5c\x0f\xf0".to_fixedarray(),
 )
 
+///|
 pub(all) struct Game {
   snake : Snake
   mut frame_count : UInt
@@ -26,6 +29,7 @@ pub(all) struct Game {
   mut fruit : Point
 }
 
+///|
 pub fn Game::new() -> Game {
   {
     snake: Snake::new(),
@@ -35,6 +39,7 @@ pub fn Game::new() -> Game {
   }
 }
 
+///|
 pub fn update(self : Game) -> Unit {
   self.frame_count += 1
   self.input()
@@ -62,15 +67,15 @@ pub fn update(self : Game) -> Unit {
   @wasm4.set_draw_colors(2, index=2)
   @wasm4.set_draw_colors(3, index=3)
   @wasm4.set_draw_colors(4, index=4)
-  fruit.blit(
-    self.fruit.x * 8,
-    self.fruit.y * 8,
-    8,
-    8,
-    { one_bit_per_pixel: false, flip_x: false, flip_y: false, rotate: false },
-  )
+  fruit.blit(self.fruit.x * 8, self.fruit.y * 8, 8, 8, {
+    one_bit_per_pixel: false,
+    flip_x: false,
+    flip_y: false,
+    rotate: false,
+  })
 }
 
+///|
 pub fn input(self : Game) -> Unit {
   let gamepad = @wasm4.get_gamepad()
   if gamepad != self.prev_gamepad {

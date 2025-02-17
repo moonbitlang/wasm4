@@ -13,6 +13,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
+///|
 pub fn start() -> Unit {
   @wasm4.set_palette(1, @wasm4.rgb(0xfbf7f3))
   @wasm4.set_palette(2, @wasm4.rgb(0xe5b083))
@@ -20,8 +21,10 @@ pub fn start() -> Unit {
   @wasm4.set_palette(4, @wasm4.rgb(0x20283d))
 }
 
+///|
 let game : Game = Game::new()
 
+///|
 pub fn upd() -> Unit {
   game.update()
 }
