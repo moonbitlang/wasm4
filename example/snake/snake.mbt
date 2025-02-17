@@ -41,7 +41,7 @@ pub fn draw(self : Snake) -> Unit {
   |> ignore
 }
 
-pub fn update(self : Snake) -> Point? {
+pub fn Snake::update(self : Snake) -> Point? {
   let head = self.body.front().unwrap()
   self.body.push_front(
     Point::{
