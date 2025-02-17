@@ -13,5 +13,5 @@
 //  limitations under the License.
 
 ///|
-extern "wasm" fn get_addr(bytes : Bytes) -> Int =
+extern "wasm" fn get_addr(bytes : FixedArray[Byte]) -> Int =
   #|(func (param i32) (result i32) (call $moonbit.decref (local.get 0)) (i32.add (local.get 0) (i32.const 8)))
