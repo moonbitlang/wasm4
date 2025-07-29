@@ -14,7 +14,7 @@
 //  limitations under the License.
 
 ///|
-let random : @random.Rand = @random.new()
+let random : @random.Rand = @random.Rand::new()
 
 ///|
 let fruit : @wasm4.Sprite = @wasm4.sprite(
