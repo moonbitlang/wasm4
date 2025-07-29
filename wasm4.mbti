@@ -1,0 +1,153 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitlang/wasm4"
+
+// Values
+fn disk_read(FixedArray[Byte], UInt) -> Int
+
+fn disk_write(FixedArray[Byte], UInt) -> Int
+
+fn get_draw_colors(UInt) -> UInt
+
+fn get_frame_buffer(UInt) -> UInt
+
+fn get_gamepad(index~ : UInt = ..) -> GamePad
+
+fn get_mouse() -> Mouse
+
+fn get_netplay() -> Netplay
+
+fn get_palette(UInt) -> Color
+
+fn get_system_hide_gamepad_overlay() -> Bool
+
+fn get_system_preserve_framebuffer() -> Bool
+
+fn hline(Int, Int, Int) -> Unit
+
+fn line(Int, Int, Int, Int) -> Unit
+
+fn oval(Int, Int, Int, Int) -> Unit
+
+fn rect(Int, Int, Int, Int) -> Unit
+
+fn rgb(UInt) -> Color
+
+let screen_height : UInt
+
+let screen_width : UInt
+
+fn set_draw_colors(UInt, index~ : UInt = ..) -> Unit
+
+fn set_frame_buffer(UInt, UInt) -> Unit
+
+fn set_palette(UInt, Color) -> Unit
+
+fn set_system_hide_gamepad_overlay(Bool) -> Unit
+
+fn set_system_preserve_framebuffer(Bool) -> Unit
+
+fn sprite(FixedArray[Byte]) -> Sprite
+
+fn text(String, Int, Int) -> Unit
+
+fn tone((UInt, UInt), ADSR, ADSRVolume, ToneFlag) -> Unit
+
+fn tone_note_mode((Note, Note?), ADSR, ADSRVolume, ToneFlag) -> Unit
+
+fn trace(String) -> Unit
+
+fn vline(Int, Int, Int) -> Unit
+
+// Errors
+
+// Types and methods
+pub struct ADSR {
+  sustain : UInt
+  release : UInt
+  decay : UInt
+  attack : UInt
+}
+fn ADSR::new(UInt, release~ : UInt = .., decay~ : UInt = .., attack~ : UInt = ..) -> Self
+
+pub struct ADSRVolume {
+  sustain : UInt
+  peak : UInt
+}
+fn ADSRVolume::new(UInt, peak~ : UInt = ..) -> Self
+
+pub(all) struct BlitFlag {
+  one_bit_per_pixel : Bool
+  flip_x : Bool
+  flip_y : Bool
+  rotate : Bool
+}
+
+type Color
+
+pub struct GamePad {
+  button_1 : Bool
+  button_2 : Bool
+  button_left : Bool
+  button_right : Bool
+  button_up : Bool
+  button_down : Bool
+}
+impl Default for GamePad
+impl Eq for GamePad
+
+pub struct Mouse {
+  x : Int
+  y : Int
+  left : Bool
+  middle : Bool
+  right : Bool
+}
+impl Default for Mouse
+impl Eq for Mouse
+
+pub struct Netplay {
+  index : UInt
+  active : Bool
+}
+
+pub struct Note {
+  note : UInt
+  bend : UInt
+}
+fn Note::new(UInt, bend~ : UInt = ..) -> Self
+
+type Sprite
+fn Sprite::blit(Self, Int, Int, Int, Int, BlitFlag) -> Unit
+fn Sprite::blit_sub(Self, Int, Int, Int, Int, Int, Int, Int, BlitFlag) -> Unit
+
+pub(all) enum ToneChannel {
+  Pulse1
+  Pulse2
+  Triangle
+  Noise
+}
+
+pub struct ToneFlag {
+  channel : ToneChannel
+  mode : ToneMode
+  pan : TonePan
+}
+fn ToneFlag::new(channel~ : ToneChannel = .., mode~ : ToneMode = .., pan~ : TonePan = ..) -> Self
+
+pub(all) enum ToneMode {
+  Duty_1_8
+  Duty_1_4
+  Duty_1_2
+  Duty_3_4
+}
+
+pub(all) enum TonePan {
+  Center
+  Left
+  Right
+}
+
+// Type aliases
+
+// Traits
+

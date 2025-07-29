@@ -13,6 +13,7 @@
 //  limitations under the License.
 
 // Addresses: https://wasm4.org/docs/reference/memory#memory-map
+
 ///|
 let address_PALETTE = 0x4
 
@@ -75,7 +76,7 @@ fn blit_ffi(
   y : Int,
   width : Int,
   height : Int,
-  flags : Int
+  flags : Int,
 ) = "env" "blit"
 
 ///|
@@ -88,7 +89,7 @@ fn blit_sub_ffi(
   src_x : Int,
   src_y : Int,
   stride : Int,
-  flags : Int
+  flags : Int,
 ) = "env" "blitSub"
 
 ///|
