@@ -1,0 +1,49 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "snake"
+
+import(
+  "moonbitlang/core/deque"
+  "moonbitlang/wasm4"
+)
+
+// Values
+fn start() -> Unit
+
+fn upd() -> Unit
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  snake : Snake
+  mut frame_count : UInt
+  mut prev_gamepad : @wasm4.GamePad
+  mut fruit : Point
+}
+fn Game::input(Self) -> Unit
+fn Game::new() -> Self
+fn Game::update(Self) -> Unit
+
+pub(all) struct Point {
+  x : Int
+  y : Int
+}
+impl Eq for Point
+
+pub(all) struct Snake {
+  body : @deque.T[Point]
+  mut direction : Point
+}
+fn Snake::down(Self) -> Unit
+fn Snake::draw(Self) -> Unit
+fn Snake::is_dead(Self) -> Bool
+fn Snake::left(Self) -> Unit
+fn Snake::new() -> Self
+fn Snake::right(Self) -> Unit
+fn Snake::up(Self) -> Unit
+fn Snake::update(Self) -> Point?
+
+// Type aliases
+
+// Traits
+
