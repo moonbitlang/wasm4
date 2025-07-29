@@ -31,7 +31,7 @@ pub fn set_palette(index : UInt, color : Color) -> Unit {
   }
   store_i32(
     address_PALETTE + (index.reinterpret_as_int() - 1) * 4,
-    color._.reinterpret_as_int(),
+    color.inner().reinterpret_as_int(),
   )
 }
 
