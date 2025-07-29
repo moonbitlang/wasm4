@@ -53,7 +53,7 @@ pub fn blit(
   y : Int,
   width : Int,
   height : Int,
-  flags : BlitFlag
+  flags : BlitFlag,
 ) -> Unit {
   blit_ffi(get_addr(self.inner()), x, y, width, height, flags.to_int())
   ignore(self)
@@ -74,7 +74,7 @@ pub fn blit_sub(
   src_x : Int,
   src_y : Int,
   stride : Int,
-  flags : BlitFlag
+  flags : BlitFlag,
 ) -> Unit {
   blit_sub_ffi(
     get_addr(self.inner()),
@@ -154,7 +154,7 @@ pub fn ADSR::new(
   sustain : UInt,
   release~ : UInt = 0,
   decay~ : UInt = 0,
-  attack~ : UInt = 0
+  attack~ : UInt = 0,
 ) -> ADSR {
   { sustain, release, decay, attack }
 }
@@ -202,7 +202,7 @@ pub struct ToneFlag {
 pub fn ToneFlag::new(
   channel~ : ToneChannel = Pulse1,
   mode~ : ToneMode = Duty_1_8,
-  pan~ : TonePan = Center
+  pan~ : TonePan = Center,
 ) -> ToneFlag {
   { channel, mode, pan }
 }
@@ -240,7 +240,7 @@ pub fn tone(
   frequency : (UInt, UInt),
   duration : ADSR,
   volume : ADSRVolume,
-  flags : ToneFlag
+  flags : ToneFlag,
 ) -> Unit {
   let frequency = frequency.0 | (frequency.1 << 16)
   let duration = (duration.attack << 24) |
@@ -281,7 +281,7 @@ pub fn tone_note_mode(
   frequency : (Note, Note?),
   duration : ADSR,
   volume : ADSRVolume,
-  flags : ToneFlag
+  flags : ToneFlag,
 ) -> Unit {
   let higher_note = frequency.1.unwrap_or({ note: 0, bend: 0 })
   let frequency = frequency.0.note |
