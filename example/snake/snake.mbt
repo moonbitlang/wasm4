@@ -41,9 +41,19 @@ pub fn Snake::new() -> Snake {
 pub fn draw(self : Snake) -> Unit {
   @wasm4.set_draw_colors(4, index=2)
   @wasm4.set_draw_colors(3)
-  self.body.iter().each(fn { { x, y } => @wasm4.rect(x * 8, y * 8, 8, 8) })
+  self.body
+  .iter()
+  .each(p => {
+    let { x, y } = p
+    @wasm4.rect(x * 8, y * 8, 8, 8)
+  })
   @wasm4.set_draw_colors(4)
-  self.body.front().map(fn { { x, y } => @wasm4.rect(x * 8, y * 8, 8, 8) })
+  self.body
+  .front()
+  .map(p => {
+    let { x, y } = p
+    @wasm4.rect(x * 8, y * 8, 8, 8)
+  })
   |> ignore
 }
 
@@ -90,7 +100,7 @@ pub fn is_dead(self : Snake) -> Bool {
   self.body
   .iter()
   .drop(1)
-  .find_first(fn { point => point == self.body.front().unwrap() })
+  .find_first(p => p == self.body.front().unwrap())
   .is_empty()
   |> not()
 }
