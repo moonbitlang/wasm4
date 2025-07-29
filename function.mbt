@@ -55,7 +55,7 @@ pub fn blit(
   height : Int,
   flags : BlitFlag
 ) -> Unit {
-  blit_ffi(get_addr(self._), x, y, width, height, flags.to_int())
+  blit_ffi(get_addr(self.inner()), x, y, width, height, flags.to_int())
   ignore(self)
 }
 
@@ -77,7 +77,7 @@ pub fn blit_sub(
   flags : BlitFlag
 ) -> Unit {
   blit_sub_ffi(
-    get_addr(self._),
+    get_addr(self.inner()),
     x,
     y,
     width,
@@ -122,7 +122,7 @@ pub fn rect(x : Int, y : Int, width : Int, height : Int) = "env" "rect"
 pub fn text(s : String, x : Int, y : Int) -> Unit {
   let bytes = FixedArray::make(s.length() * 4 + 1, Byte::default())
   let mut offset = 0
-  s.iter().each(fn { ch => offset += bytes.set_utf8_char(offset, ch) })
+  s.iter().each(ch => offset += bytes.set_utf8_char(offset, ch))
   text_ffi(get_addr(bytes), x, y)
   ignore(bytes)
 }
@@ -283,7 +283,7 @@ pub fn tone_note_mode(
   volume : ADSRVolume,
   flags : ToneFlag
 ) -> Unit {
-  let higher_note = frequency.1.or({ note: 0, bend: 0 })
+  let higher_note = frequency.1.unwrap_or({ note: 0, bend: 0 })
   let frequency = frequency.0.note |
     (frequency.0.bend << 8) |
     ((higher_note.note | (higher_note.bend << 8)) << 16)
@@ -342,7 +342,7 @@ pub fn disk_read(bytes : FixedArray[Byte], size : UInt) -> Int {
 pub fn trace(s : String) -> Unit {
   let bytes = FixedArray::make(s.length() * 4 + 1, Byte::default())
   let mut offset = 0
-  s.iter().each(fn { ch => offset += bytes.set_utf8_char(offset, ch) })
+  s.iter().each(ch => offset += bytes.set_utf8_char(offset, ch))
   trace_ffi(get_addr(bytes))
   ignore(bytes)
 }
