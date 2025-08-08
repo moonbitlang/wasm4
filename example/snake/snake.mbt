@@ -17,7 +17,7 @@
 pub(all) struct Point {
   x : Int
   y : Int
-} derive(Eq)
+} derive(Eq, Show)
 
 ///|
 pub(all) struct Snake {
