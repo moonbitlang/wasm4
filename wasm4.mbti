@@ -10,7 +10,7 @@ fn get_draw_colors(UInt) -> UInt
 
 fn get_frame_buffer(UInt) -> UInt
 
-fn get_gamepad(index~ : UInt = ..) -> GamePad
+fn get_gamepad(index? : UInt) -> GamePad
 
 fn get_mouse() -> Mouse
 
@@ -36,7 +36,7 @@ let screen_height : UInt
 
 let screen_width : UInt
 
-fn set_draw_colors(UInt, index~ : UInt = ..) -> Unit
+fn set_draw_colors(UInt, index? : UInt) -> Unit
 
 fn set_frame_buffer(UInt, UInt) -> Unit
 
@@ -67,13 +67,13 @@ pub struct ADSR {
   decay : UInt
   attack : UInt
 }
-fn ADSR::new(UInt, release~ : UInt = .., decay~ : UInt = .., attack~ : UInt = ..) -> Self
+fn ADSR::new(UInt, release? : UInt, decay? : UInt, attack? : UInt) -> Self
 
 pub struct ADSRVolume {
   sustain : UInt
   peak : UInt
 }
-fn ADSRVolume::new(UInt, peak~ : UInt = ..) -> Self
+fn ADSRVolume::new(UInt, peak? : UInt) -> Self
 
 pub(all) struct BlitFlag {
   one_bit_per_pixel : Bool
@@ -114,7 +114,7 @@ pub struct Note {
   note : UInt
   bend : UInt
 }
-fn Note::new(UInt, bend~ : UInt = ..) -> Self
+fn Note::new(UInt, bend? : UInt) -> Self
 
 type Sprite
 fn Sprite::blit(Self, Int, Int, Int, Int, BlitFlag) -> Unit
@@ -132,7 +132,7 @@ pub struct ToneFlag {
   mode : ToneMode
   pan : TonePan
 }
-fn ToneFlag::new(channel~ : ToneChannel = .., mode~ : ToneMode = .., pan~ : TonePan = ..) -> Self
+fn ToneFlag::new(channel? : ToneChannel, mode? : ToneMode, pan? : TonePan) -> Self
 
 pub(all) enum ToneMode {
   Duty_1_8
