@@ -13,7 +13,7 @@
 //  limitations under the License.
 
 ///|
-type Sprite FixedArray[Byte]
+struct Sprite(FixedArray[Byte])
 
 ///|
 pub fn sprite(bytes : FixedArray[Byte]) -> Sprite {

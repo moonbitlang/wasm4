@@ -13,7 +13,7 @@
 //  limitations under the License.
 
 ///|
-type Color UInt
+struct Color(UInt)
 
 ///|
 pub fn rgb(color : UInt) -> Color {
