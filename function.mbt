@@ -55,7 +55,7 @@ pub fn blit(
   height : Int,
   flags : BlitFlag,
 ) -> Unit {
-  blit_ffi(get_addr(self.inner()), x, y, width, height, flags.to_int())
+  blit_ffi(get_addr(self.0), x, y, width, height, flags.to_int())
   ignore(self)
 }
 
@@ -77,7 +77,7 @@ pub fn blit_sub(
   flags : BlitFlag,
 ) -> Unit {
   blit_sub_ffi(
-    get_addr(self.inner()),
+    get_addr(self.0),
     x,
     y,
     width,

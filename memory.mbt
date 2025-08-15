@@ -17,7 +17,7 @@ struct Color(UInt)
 
 ///|
 pub fn rgb(color : UInt) -> Color {
-  color
+  Color(color)
 }
 
 ///| Sets the color of the palette at the given index.
@@ -26,12 +26,11 @@ pub fn rgb(color : UInt) -> Color {
 /// @param color the color to set
 pub fn set_palette(index : UInt, color : Color) -> Unit {
   if index == 0 || index > 4 {
-    trace("Palette index out of range")
     panic()
   }
   store_i32(
     address_PALETTE + (index.reinterpret_as_int() - 1) * 4,
-    color.inner().reinterpret_as_int(),
+    color.0.reinterpret_as_int(),
   )
 }
 
