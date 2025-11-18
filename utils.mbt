@@ -12,7 +12,8 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-///| (origin and not mask) or (value shift left and mask)
+///|
+/// (origin and not mask) or (value shift left and mask)
 fn bitset(origin : UInt, value : UInt, offset : UInt, width : UInt) -> UInt {
   let mask = ((1 << width.reinterpret_as_int()) - 1) <<
     offset.reinterpret_as_int()

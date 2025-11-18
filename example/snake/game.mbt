@@ -40,7 +40,7 @@ pub fn Game::new() -> Game {
 }
 
 ///|
-pub fn update(self : Game) -> Unit {
+pub fn Game::update(self : Game) -> Unit {
   self.frame_count += 1
   self.input()
   if self.snake.is_dead() {
@@ -76,7 +76,7 @@ pub fn update(self : Game) -> Unit {
 }
 
 ///|
-pub fn input(self : Game) -> Unit {
+pub fn Game::input(self : Game) -> Unit {
   let gamepad = @wasm4.get_gamepad()
   if gamepad != self.prev_gamepad {
     if gamepad.button_down {

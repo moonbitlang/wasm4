@@ -21,14 +21,14 @@ pub(all) struct Point {
 
 ///|
 pub(all) struct Snake {
-  body : @deque.T[Point]
+  body : @deque.Deque[Point]
   mut direction : Point
 }
 
 ///|
 pub fn Snake::new() -> Snake {
   {
-    body: @deque.of([
+    body: @deque.from_array([
       Point::{ x: 2, y: 0 },
       Point::{ x: 1, y: 0 },
       Point::{ x: 0, y: 0 },
@@ -38,7 +38,7 @@ pub fn Snake::new() -> Snake {
 }
 
 ///|
-pub fn draw(self : Snake) -> Unit {
+pub fn Snake::draw(self : Snake) -> Unit {
   @wasm4.set_draw_colors(4, index=2)
   @wasm4.set_draw_colors(3)
   self.body
@@ -68,39 +68,35 @@ pub fn Snake::update(self : Snake) -> Point? {
 }
 
 ///|
-pub fn up(self : Snake) -> Unit {
+pub fn Snake::up(self : Snake) -> Unit {
   if self.direction.y == 0 {
     self.direction = Point::{ x: 0, y: -1 }
   }
 }
 
 ///|
-pub fn down(self : Snake) -> Unit {
+pub fn Snake::down(self : Snake) -> Unit {
   if self.direction.y == 0 {
     self.direction = Point::{ x: 0, y: 1 }
   }
 }
 
 ///|
-pub fn left(self : Snake) -> Unit {
+pub fn Snake::left(self : Snake) -> Unit {
   if self.direction.x == 0 {
     self.direction = Point::{ x: -1, y: 0 }
   }
 }
 
 ///|
-pub fn right(self : Snake) -> Unit {
+pub fn Snake::right(self : Snake) -> Unit {
   if self.direction.x == 0 {
     self.direction = Point::{ x: 1, y: 0 }
   }
 }
 
 ///|
-pub fn is_dead(self : Snake) -> Bool {
-  self.body
-  .iter()
-  .drop(1)
-  .find_first(p => p == self.body.front().unwrap())
-  .is_empty()
-  |> not()
+pub fn Snake::is_dead(self : Snake) -> Bool {
+  self.body.iter().drop(1).find_first(p => p == self.body.front().unwrap())
+  is Some(_)
 }

@@ -31,7 +31,7 @@ pub(all) struct Point {
 impl Eq for Point
 
 pub(all) struct Snake {
-  body : @deque.T[Point]
+  body : @deque.Deque[Point]
   mut direction : Point
 }
 fn Snake::down(Self) -> Unit

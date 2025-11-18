@@ -20,7 +20,8 @@ pub fn rgb(color : UInt) -> Color {
   color
 }
 
-///| Sets the color of the palette at the given index.
+///|
+/// Sets the color of the palette at the given index.
 /// 
 /// @param index the index of the palette to set, from 1 to 4 (inclusive)  
 /// @param color the color to set
@@ -31,11 +32,12 @@ pub fn set_palette(index : UInt, color : Color) -> Unit {
   }
   store_i32(
     address_PALETTE + (index.reinterpret_as_int() - 1) * 4,
-    color.inner().reinterpret_as_int(),
+    color.0.reinterpret_as_int(),
   )
 }
 
-///| Gets the color of the palette at the given index.
+///|
+/// Gets the color of the palette at the given index.
 /// 
 /// @param index the index of the palette to get, from 1 to 4 (inclusive)  
 /// @return the color at the given index
@@ -47,11 +49,12 @@ pub fn get_palette(index : UInt) -> Color {
   load_s32(address_PALETTE + (index.reinterpret_as_int() - 1) * 4).reinterpret_as_uint()
 }
 
-///| Sets the draw color at the given index.
+///|
+/// Sets the draw color at the given index.
 ///
 /// @param index the index of the draw color to set, from 1 to 4 (inclusive)
 /// @param palette the index of the palette to set the draw color to, from 1 to 4 (inclusive), or 0 for transparent
-pub fn set_draw_colors(palette : UInt, index~ : UInt = 1) -> Unit {
+pub fn set_draw_colors(palette : UInt, index? : UInt = 1) -> Unit {
   if index == 0 || index > 4 || palette > 4 {
     trace("Draw color index or palette index out of range")
     panic()
@@ -61,7 +64,8 @@ pub fn set_draw_colors(palette : UInt, index~ : UInt = 1) -> Unit {
   store_i16(address_DRAW_COLORS, updated_color.reinterpret_as_int())
 }
 
-///| Gets the draw color at the given index.
+///|
+/// Gets the draw color at the given index.
 ///
 /// @param index the index of the draw color to get, from 1 to 4 (inclusive)
 /// @return the index of the palette that the draw color is set to
@@ -83,11 +87,12 @@ pub struct GamePad {
   button_down : Bool
 } derive(Eq, Default)
 
-///| Gets the state of the gamepads.
+///|
+/// Gets the state of the gamepads.
 /// 
 /// @param index the index of the gamepad to get, from 1 to 4 (inclusive)  
 /// @return the state of the gamepads
-pub fn get_gamepad(index~ : UInt = 1) -> GamePad {
+pub fn get_gamepad(index? : UInt = 1) -> GamePad {
   if index.reinterpret_as_int() > 4 {
     trace("Gamepad index out of range")
     panic()
@@ -112,7 +117,8 @@ pub struct Mouse {
   right : Bool
 } derive(Eq, Default)
 
-///| Gets the state of the mouse.
+///|
+/// Gets the state of the mouse.
 /// 
 /// @return the state of the mouse
 pub fn get_mouse() -> Mouse {
@@ -126,7 +132,8 @@ pub fn get_mouse() -> Mouse {
   }
 }
 
-///| Manipulate the framebuffer directly.
+///|
+/// Manipulate the framebuffer directly.
 /// 
 /// @param index the index of the pixel to set, from 0 to 160 * 160 (exclusive)  
 /// @param palette the index of the palette to set the pixel to, from 1 to 4 (inclusive)
@@ -148,7 +155,8 @@ pub fn set_frame_buffer(index : UInt, palette : UInt) -> Unit {
   )
 }
 
-///| Get the palette index of the pixel at the specified index.
+///|
+/// Get the palette index of the pixel at the specified index.
 ///
 /// # Parameters
 ///
@@ -167,7 +175,8 @@ pub fn get_frame_buffer(index : UInt) -> UInt {
   bitget(byte.to_int().reinterpret_as_uint(), index % 4U * 2U, 2U) + 1U
 }
 
-///| Status of netplay
+///|
+/// Status of netplay
 /// 
 /// The index is from 1 to 4 (inclusive)
 pub struct Netplay {
@@ -175,7 +184,8 @@ pub struct Netplay {
   active : Bool
 }
 
-///| Gets the state of the netplay.
+///|
+/// Gets the state of the netplay.
 /// 
 /// @return the state of the netplay
 pub fn get_netplay() -> Netplay {
