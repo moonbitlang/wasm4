@@ -58,7 +58,6 @@ pub fn Sprite::blit(
   flags : BlitFlag,
 ) -> Unit {
   blit_ffi(get_addr(self.0), x, y, width, height, flags.to_int())
-  ignore(self)
 }
 
 ///|
@@ -90,7 +89,6 @@ pub fn Sprite::blit_sub(
     stride,
     flags.to_int(),
   )
-  ignore(self)
 }
 
 ///|
@@ -133,7 +131,6 @@ pub fn text(s : String, x : Int, y : Int) -> Unit {
   let mut offset = 0
   s.iter().each(ch => offset += bytes.set_utf8_char(offset, ch))
   text_ffi(get_addr(bytes), x, y)
-  ignore(bytes)
 }
 
 ///|
@@ -366,7 +363,6 @@ pub fn trace(s : String) -> Unit {
   let mut offset = 0
   s.iter().each(ch => offset += bytes.set_utf8_char(offset, ch))
   trace_ffi(get_addr(bytes))
-  ignore(bytes)
 }
 
 ///|
