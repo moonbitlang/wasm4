@@ -12,6 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
+///|
 #borrow(bytes)
 extern "wasm" fn get_addr(bytes : FixedArray[Byte]) -> Int =
   #|(func (param i32) (result i32) (local.get 0))

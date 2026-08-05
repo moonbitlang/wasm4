@@ -91,9 +91,7 @@ pub struct GamePad {
   button_right : Bool
   button_up : Bool
   button_down : Bool
-}
-pub impl Default for GamePad
-pub impl Eq for GamePad
+} derive(Default, Eq)
 
 pub struct Mouse {
   x : Int
@@ -101,9 +99,7 @@ pub struct Mouse {
   left : Bool
   middle : Bool
   right : Bool
-}
-pub impl Default for Mouse
-pub impl Eq for Mouse
+} derive(Default, Eq)
 
 pub struct Netplay {
   index : UInt
@@ -150,4 +146,3 @@ pub(all) enum TonePan {
 // Type aliases
 
 // Traits
-
