@@ -29,11 +29,11 @@ pub(all) struct Snake {
 pub fn Snake::new() -> Snake {
   {
     body: @deque.from_array([
-      Point::{ x: 2, y: 0 },
-      Point::{ x: 1, y: 0 },
-      Point::{ x: 0, y: 0 },
+      { x: 2, y: 0 },
+      { x: 1, y: 0 },
+      { x: 0, y: 0 },
     ]),
-    direction: Point::{ x: 1, y: 0 },
+    direction: { x: 1, y: 0 },
   }
 }
 
@@ -60,7 +60,7 @@ pub fn Snake::draw(self : Snake) -> Unit {
 ///|
 pub fn Snake::update(self : Snake) -> Point? {
   let head = self.body.front().unwrap()
-  self.body.push_front(Point::{
+  self.body.push_front({
     x: (head.x + self.direction.x + 20) % 20,
     y: (head.y + self.direction.y + 20) % 20,
   })
@@ -70,28 +70,28 @@ pub fn Snake::update(self : Snake) -> Point? {
 ///|
 pub fn Snake::up(self : Snake) -> Unit {
   if self.direction.y == 0 {
-    self.direction = Point::{ x: 0, y: -1 }
+    self.direction = { x: 0, y: -1 }
   }
 }
 
 ///|
 pub fn Snake::down(self : Snake) -> Unit {
   if self.direction.y == 0 {
-    self.direction = Point::{ x: 0, y: 1 }
+    self.direction = { x: 0, y: 1 }
   }
 }
 
 ///|
 pub fn Snake::left(self : Snake) -> Unit {
   if self.direction.x == 0 {
-    self.direction = Point::{ x: -1, y: 0 }
+    self.direction = { x: -1, y: 0 }
   }
 }
 
 ///|
 pub fn Snake::right(self : Snake) -> Unit {
   if self.direction.x == 0 {
-    self.direction = Point::{ x: 1, y: 0 }
+    self.direction = { x: 1, y: 0 }
   }
 }
 

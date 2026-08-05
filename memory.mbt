@@ -98,7 +98,7 @@ pub fn get_gamepad(index? : UInt = 1) -> GamePad {
     panic()
   }
   let state = load_byte(address_GAMEPADS + index.reinterpret_as_int() - 1).to_int()
-  GamePad::{
+  {
     button_1: (state & 1) == 1,
     button_2: (state & 2) == 2,
     button_left: (state & 16) == 16,
@@ -123,7 +123,7 @@ pub struct Mouse {
 /// @return the state of the mouse
 pub fn get_mouse() -> Mouse {
   let buttons = load_byte(address_MOUSE_BUTTONS).to_int().reinterpret_as_uint()
-  Mouse::{
+  {
     x: load_s16(address_MOUSE_X),
     y: load_s16(address_MOUSE_Y),
     left: (buttons & 1U) == 1U,
@@ -190,7 +190,7 @@ pub struct Netplay {
 /// @return the state of the netplay
 pub fn get_netplay() -> Netplay {
   let flags = load_byte(address_NETPLAY).to_int().reinterpret_as_uint()
-  Netplay::{ index: (flags & 0b11U) + 1, active: (flags & 4U) == 4U }
+  { index: (flags & 0b11U) + 1, active: (flags & 4U) == 4U }
 }
 
 ///|

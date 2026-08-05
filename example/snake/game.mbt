@@ -35,7 +35,7 @@ pub fn Game::new() -> Game {
     snake: Snake::new(),
     frame_count: 0,
     prev_gamepad: @wasm4.GamePad::default(),
-    fruit: Point::{ x: random.int(limit=20), y: random.int(limit=20) },
+    fruit: { x: random.int(limit=20), y: random.int(limit=20) },
   }
 }
 
@@ -59,7 +59,7 @@ pub fn Game::update(self : Game) -> Unit {
         Some(pos) => self.snake.body.push_back(pos)
         None => ()
       }
-      self.fruit = Point::{ x: random.int(limit=20), y: random.int(limit=20) }
+      self.fruit = { x: random.int(limit=20), y: random.int(limit=20) }
     }
   }
   self.snake.draw()
