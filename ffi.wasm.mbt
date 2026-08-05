@@ -14,4 +14,4 @@
 
 ///|
 extern "wasm" fn get_addr(bytes : FixedArray[Byte]) -> Int =
-  #|(func (param i32) (result i32) (call $moonbit.decref (local.get 0)) (i32.add (local.get 0) (i32.const 8)))
+  #|(func (param i32) (result i32) (call $moonbit.decref (local.get 0)) (local.get 0))
