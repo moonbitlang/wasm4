@@ -6,6 +6,10 @@ readme = "README.md"
 
 repository = "https://github.com/moonbitlang/wasm4"
 
+preferred_target = "wasm"
+
+supported_targets = "wasm+wasm-gc"
+
 license = "Apache-2.0"
 
 keywords = [ "game" ]

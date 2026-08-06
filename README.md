@@ -15,10 +15,10 @@ This is an opinionated binding for [Wasm4](https://wasm4.org) in MoonBit.
   initialization and export a function called `update` that will be executed at
   60Hz for the expected backend
 - Import a memory with the module of `env` and name of `memory`
-- Build with `moon build --target <wasm-gc or wasm>` with the respective backend
+- Build with `moon build --target <wasm-gc or wasm> --release` with the respective backend
 - Execute `npx wasm4 run <target>.wasm`. The target should be located in
-  `target/wasm/release/build/<package path>/<package name>.wasm` for wasm
-  backend, or `target/wasm-gc/release/build/<package path>/<package name>.wasm`
+  `_build/wasm/release/build/<package path>/<package name>.wasm` for wasm
+  backend, or `_build/wasm-gc/release/build/<package path>/<package name>.wasm`
   for wasm-gc backend. The browser should open automatically and display the
   game. Enjoy
 
@@ -27,8 +27,8 @@ This is an opinionated binding for [Wasm4](https://wasm4.org) in MoonBit.
 The snake example (adapted from the Wasm4 documentation) demonstrates the usage. You may execute
 
 ```bash
-moon build --source-dir example/snake --target wasm
-npx wasm4 run example/snake/target/wasm/release/build/snake.wasm
+moon -C example/snake build --release
+npx wasm4 run _build/wasm/release/build/snake/snake.wasm
 ```
 
 and enjoy the game.
