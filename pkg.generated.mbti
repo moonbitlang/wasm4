@@ -2,6 +2,8 @@
 package "moonbitlang/wasm4"
 
 // Values
+pub fn blit_flag(one_bit_per_pixel~ : Bool, flip_x~ : Bool, flip_y~ : Bool, rotate~ : Bool) -> Int
+
 pub fn disk_read(FixedArray[Byte], UInt) -> Int
 
 pub fn disk_write(FixedArray[Byte], UInt) -> Int
@@ -46,7 +48,7 @@ pub fn set_system_hide_gamepad_overlay(Bool) -> Unit
 
 pub fn set_system_preserve_framebuffer(Bool) -> Unit
 
-pub fn sprite(FixedArray[Byte]) -> Sprite
+pub fn sprite(Bytes) -> Sprite
 
 pub fn text(String, Int, Int) -> Unit
 
@@ -74,13 +76,6 @@ pub struct ADSRVolume {
   peak : UInt
 }
 pub fn ADSRVolume::new(UInt, peak? : UInt) -> Self
-
-pub(all) struct BlitFlag {
-  one_bit_per_pixel : Bool
-  flip_x : Bool
-  flip_y : Bool
-  rotate : Bool
-}
 
 type Color
 
@@ -113,8 +108,8 @@ pub struct Note {
 pub fn Note::new(UInt, bend? : UInt) -> Self
 
 type Sprite
-pub fn Sprite::blit(Self, Int, Int, Int, Int, BlitFlag) -> Unit
-pub fn Sprite::blit_sub(Self, Int, Int, Int, Int, Int, Int, Int, BlitFlag) -> Unit
+pub fn Sprite::blit(Self, Int, Int, Int, Int, Int) -> Unit
+pub fn Sprite::blit_sub(Self, Int, Int, Int, Int, Int, Int, Int, Int) -> Unit
 
 pub(all) enum ToneChannel {
   Pulse1

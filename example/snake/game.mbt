@@ -67,12 +67,18 @@ pub fn Game::update(self : Game) -> Unit {
   @wasm4.set_draw_colors(2, index=2)
   @wasm4.set_draw_colors(3, index=3)
   @wasm4.set_draw_colors(4, index=4)
-  fruit.blit(self.fruit.x * 8, self.fruit.y * 8, 8, 8, {
-    one_bit_per_pixel: false,
-    flip_x: false,
-    flip_y: false,
-    rotate: false,
-  })
+  fruit.blit(
+    self.fruit.x * 8,
+    self.fruit.y * 8,
+    8,
+    8,
+    @wasm4.blit_flag(
+      one_bit_per_pixel=false,
+      flip_x=false,
+      flip_y=false,
+      rotate=false,
+    ),
+  )
 }
 
 ///|

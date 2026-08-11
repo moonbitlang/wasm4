@@ -25,19 +25,16 @@ pub fn sprite(bytes : Bytes) -> Sprite {
 /// flip_x: flip the sprite horizontally
 /// flip_y: flip the sprite vertically
 /// rotate: rotate the sprite anti-clockwise 90 degrees, applied after any flipping
-pub(all) struct BlitFlag {
-  one_bit_per_pixel : Bool
-  flip_x : Bool
-  flip_y : Bool
-  rotate : Bool
-}
-
-///|
-fn BlitFlag::to_int(self : BlitFlag) -> Int {
-  (if self.one_bit_per_pixel { 0 } else { 1 }) |
-  (if self.flip_x { 2 } else { 0 }) |
-  (if self.flip_y { 4 } else { 0 }) |
-  (if self.rotate { 8 } else { 0 })
+pub fn blit_flag(
+  one_bit_per_pixel~ : Bool,
+  flip_x~ : Bool,
+  flip_y~ : Bool,
+  rotate~ : Bool,
+) -> Int {
+  (if one_bit_per_pixel { 0 } else { 1 }) |
+  (if flip_x { 2 } else { 0 }) |
+  (if flip_y { 4 } else { 0 }) |
+  (if rotate { 8 } else { 0 })
 }
 
 ///|
@@ -55,9 +52,9 @@ pub fn Sprite::blit(
   y : Int,
   width : Int,
   height : Int,
-  flags : BlitFlag,
+  flags : Int,
 ) -> Unit {
-  blit_ffi(self.0, x, y, width, height, flags.to_int())
+  blit_ffi(self.0, x, y, width, height, flags)
 }
 
 ///|
@@ -76,19 +73,9 @@ pub fn Sprite::blit_sub(
   src_x : Int,
   src_y : Int,
   stride : Int,
-  flags : BlitFlag,
+  flags : Int,
 ) -> Unit {
-  blit_sub_ffi(
-    self.0,
-    x,
-    y,
-    width,
-    height,
-    src_x,
-    src_y,
-    stride,
-    flags.to_int(),
-  )
+  blit_sub_ffi(self.0, x, y, width, height, src_x, src_y, stride, flags)
 }
 
 ///|
