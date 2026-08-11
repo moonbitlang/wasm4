@@ -46,8 +46,8 @@ pub fn Game::update(self : Game) -> Unit {
   if self.snake.is_dead() {
     @wasm4.trace("Game Over...Or not?")
     @wasm4.tone_note_mode(
-      (@wasm4.Note(60, bend=20), None),
-      @wasm4.ADSR(60, release=400, decay=200, attack=100),
+      (@wasm4.Note(60, bend=0), None),
+      @wasm4.ADSR(60),
       @wasm4.ADSRVolume(100),
       @wasm4.ToneFlag(),
     )
