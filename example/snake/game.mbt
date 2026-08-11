@@ -32,7 +32,7 @@ pub(all) struct Game {
 ///|
 pub fn Game::new() -> Game {
   {
-    snake: Snake::new(),
+    snake: Snake(),
     frame_count: 0,
     prev_gamepad: @wasm4.GamePad::default(),
     fruit: { x: random.int(limit=20), y: random.int(limit=20) },
