@@ -14,11 +14,11 @@
 //  limitations under the License.
 
 ///|
-let random : @random.Rand = @random.Rand::new()
+let random : @random.Rand = @random.Rand::chacha8()
 
 ///|
 let fruit : @wasm4.Sprite = @wasm4.sprite(
-  b"\x00\xa0\x02\x00\x0e\xf0\x36\x5c\xd6\x57\xd5\x57\x35\x5c\x0f\xf0".to_fixedarray(),
+  b"\x00\xa0\x02\x00\x0e\xf0\x36\x5c\xd6\x57\xd5\x57\x35\x5c\x0f\xf0",
 )
 
 ///|
@@ -32,10 +32,10 @@ pub(all) struct Game {
 ///|
 pub fn Game::new() -> Game {
   {
-    snake: Snake::new(),
+    snake: Snake(),
     frame_count: 0,
     prev_gamepad: @wasm4.GamePad::default(),
-    fruit: Point::{ x: random.int(limit=20), y: random.int(limit=20) },
+    fruit: { x: random.int(limit=20), y: random.int(limit=20) },
   }
 }
 
@@ -46,10 +46,10 @@ pub fn Game::update(self : Game) -> Unit {
   if self.snake.is_dead() {
     @wasm4.trace("Game Over...Or not?")
     @wasm4.tone_note_mode(
-      (@wasm4.Note::new(60, bend=0), None),
-      @wasm4.ADSR::new(60),
-      @wasm4.ADSRVolume::new(100),
-      @wasm4.ToneFlag::new(),
+      (@wasm4.Note(60, bend=0), None),
+      @wasm4.ADSR(60),
+      @wasm4.ADSRVolume(100),
+      @wasm4.ToneFlag(),
     )
   }
   if self.frame_count % 15 == 0 {
@@ -59,7 +59,7 @@ pub fn Game::update(self : Game) -> Unit {
         Some(pos) => self.snake.body.push_back(pos)
         None => ()
       }
-      self.fruit = Point::{ x: random.int(limit=20), y: random.int(limit=20) }
+      self.fruit = { x: random.int(limit=20), y: random.int(limit=20) }
     }
   }
   self.snake.draw()
@@ -67,12 +67,18 @@ pub fn Game::update(self : Game) -> Unit {
   @wasm4.set_draw_colors(2, index=2)
   @wasm4.set_draw_colors(3, index=3)
   @wasm4.set_draw_colors(4, index=4)
-  fruit.blit(self.fruit.x * 8, self.fruit.y * 8, 8, 8, {
-    one_bit_per_pixel: false,
-    flip_x: false,
-    flip_y: false,
-    rotate: false,
-  })
+  fruit.blit(
+    self.fruit.x * 8,
+    self.fruit.y * 8,
+    8,
+    8,
+    @wasm4.blit_flag(
+      one_bit_per_pixel=false,
+      flip_x=false,
+      flip_y=false,
+      rotate=false,
+    ),
+  )
 }
 
 ///|

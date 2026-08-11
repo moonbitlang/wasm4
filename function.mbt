@@ -13,10 +13,10 @@
 //  limitations under the License.
 
 ///|
-struct Sprite(FixedArray[Byte])
+struct Sprite(Bytes)
 
 ///|
-pub fn sprite(bytes : FixedArray[Byte]) -> Sprite {
+pub fn sprite(bytes : Bytes) -> Sprite {
   Sprite(bytes)
 }
 
@@ -25,19 +25,16 @@ pub fn sprite(bytes : FixedArray[Byte]) -> Sprite {
 /// flip_x: flip the sprite horizontally
 /// flip_y: flip the sprite vertically
 /// rotate: rotate the sprite anti-clockwise 90 degrees, applied after any flipping
-pub(all) struct BlitFlag {
-  one_bit_per_pixel : Bool
-  flip_x : Bool
-  flip_y : Bool
-  rotate : Bool
-}
-
-///|
-fn BlitFlag::to_int(self : BlitFlag) -> Int {
-  (if self.one_bit_per_pixel { 0 } else { 1 }) |
-  (if self.flip_x { 2 } else { 0 }) |
-  (if self.flip_y { 4 } else { 0 }) |
-  (if self.rotate { 8 } else { 0 })
+pub fn blit_flag(
+  one_bit_per_pixel~ : Bool,
+  flip_x~ : Bool,
+  flip_y~ : Bool,
+  rotate~ : Bool,
+) -> Int {
+  (if one_bit_per_pixel { 0 } else { 1 }) |
+  (if flip_x { 2 } else { 0 }) |
+  (if flip_y { 4 } else { 0 }) |
+  (if rotate { 8 } else { 0 })
 }
 
 ///|
@@ -55,10 +52,9 @@ pub fn Sprite::blit(
   y : Int,
   width : Int,
   height : Int,
-  flags : BlitFlag,
+  flags : Int,
 ) -> Unit {
-  blit_ffi(get_addr(self.0), x, y, width, height, flags.to_int())
-  ignore(self)
+  blit_ffi(self.0, x, y, width, height, flags)
 }
 
 ///|
@@ -77,20 +73,9 @@ pub fn Sprite::blit_sub(
   src_x : Int,
   src_y : Int,
   stride : Int,
-  flags : BlitFlag,
+  flags : Int,
 ) -> Unit {
-  blit_sub_ffi(
-    get_addr(self.0),
-    x,
-    y,
-    width,
-    height,
-    src_x,
-    src_y,
-    stride,
-    flags.to_int(),
-  )
-  ignore(self)
+  blit_sub_ffi(self.0, x, y, width, height, src_x, src_y, stride, flags)
 }
 
 ///|
@@ -132,8 +117,7 @@ pub fn text(s : String, x : Int, y : Int) -> Unit {
   let bytes = FixedArray::make(s.length() * 4 + 1, Byte::default())
   let mut offset = 0
   s.iter().each(ch => offset += bytes.set_utf8_char(offset, ch))
-  text_ffi(get_addr(bytes), x, y)
-  ignore(bytes)
+  text_ffi(bytes, x, y)
 }
 
 ///|
@@ -145,6 +129,7 @@ pub fn text(s : String, x : Int, y : Int) -> Unit {
 /// remains at the sustain volume during the sustain time, 
 /// and finally fades to zero volume during the release time.  
 /// Duration of each phase is specified in frames (1/60th of a second).
+#valtype
 pub struct ADSR {
   sustain : UInt
   release : UInt
@@ -161,7 +146,7 @@ pub struct ADSR {
 /// remains at the sustain volume during the sustain time, 
 /// and finally fades to zero volume during the release time.  
 /// Duration of each phase is specified in frames (1/60th of a second).
-pub fn ADSR::new(
+pub fn ADSR::ADSR(
   sustain : UInt,
   release? : UInt = 0,
   decay? : UInt = 0,
@@ -174,6 +159,7 @@ pub fn ADSR::new(
 /// The volume of an ADSR envelope
 /// 
 /// The volume used for the sustain duration, and the peak volume (default to 100 if zero) reached by the attack duration.
+#valtype
 pub struct ADSRVolume {
   sustain : UInt
   peak : UInt
@@ -183,7 +169,7 @@ pub struct ADSRVolume {
 /// The volume of an ADSR envelope
 /// 
 /// The volume used for the sustain duration, and the peak volume (default to 100 if zero) reached by the attack duration.
-pub fn ADSRVolume::new(sustain : UInt, peak? : UInt = 100) -> ADSRVolume {
+pub fn ADSRVolume::ADSRVolume(sustain : UInt, peak? : UInt = 100) -> ADSRVolume {
   { sustain, peak }
 }
 
@@ -192,6 +178,7 @@ pub fn ADSRVolume::new(sustain : UInt, peak? : UInt = 100) -> ADSRVolume {
 /// 
 /// @param note Specified in MIDI note format, e.g. 60 = C4, 69 = A4.  
 /// @param bend Bend note upwards. 0 = Nothing, 255 = One 256th away from the next note above
+#valtype
 pub struct Note {
   note : UInt
   bend : UInt
@@ -202,12 +189,13 @@ pub struct Note {
 /// 
 /// @param note Specified in MIDI note format, e.g. 60 = C4, 69 = A4.  
 /// @param bend Bend note upwards. 0 = Nothing, 255 = One 256th away from the next note above
-pub fn Note::new(note : UInt, bend? : UInt = 0) -> Note {
+pub fn Note::Note(note : UInt, bend? : UInt = 0) -> Note {
   { note, bend }
 }
 
 ///|
 /// Flags that modify behavior of `tone`
+#valtype
 pub struct ToneFlag {
   channel : ToneChannel
   mode : ToneMode
@@ -216,7 +204,7 @@ pub struct ToneFlag {
 
 ///|
 /// Flags that modify behavior of `tone`
-pub fn ToneFlag::new(
+pub fn ToneFlag::ToneFlag(
   channel? : ToneChannel = Pulse1,
   mode? : ToneMode = Duty_1_8,
   pan? : TonePan = Center,
@@ -344,7 +332,7 @@ pub fn disk_write(bytes : FixedArray[Byte], size : UInt) -> Int {
     trace("Disk write size exceeds 1024 bytes")
     panic()
   }
-  diskw_ffi(get_addr(bytes), size.reinterpret_as_int())
+  diskw_ffi(bytes, size.reinterpret_as_int())
 }
 
 ///|
@@ -356,7 +344,7 @@ pub fn disk_read(bytes : FixedArray[Byte], size : UInt) -> Int {
     trace("Disk write size exceeds 1024 bytes")
     panic()
   }
-  diskr_ffi(get_addr(bytes), size.reinterpret_as_int())
+  diskr_ffi(bytes, size.reinterpret_as_int())
 }
 
 ///|
@@ -365,8 +353,7 @@ pub fn trace(s : String) -> Unit {
   let bytes = FixedArray::make(s.length() * 4 + 1, Byte::default())
   let mut offset = 0
   s.iter().each(ch => offset += bytes.set_utf8_char(offset, ch))
-  trace_ffi(get_addr(bytes))
-  ignore(bytes)
+  trace_ffi(bytes)
 }
 
 ///|
