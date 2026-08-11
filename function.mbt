@@ -13,10 +13,10 @@
 //  limitations under the License.
 
 ///|
-struct Sprite(FixedArray[Byte])
+struct Sprite(Bytes)
 
 ///|
-pub fn sprite(bytes : FixedArray[Byte]) -> Sprite {
+pub fn sprite(bytes : Bytes) -> Sprite {
   Sprite(bytes)
 }
 
@@ -57,7 +57,7 @@ pub fn Sprite::blit(
   height : Int,
   flags : BlitFlag,
 ) -> Unit {
-  blit_ffi(get_addr(self.0), x, y, width, height, flags.to_int())
+  blit_ffi(self.0, x, y, width, height, flags.to_int())
 }
 
 ///|
@@ -79,7 +79,7 @@ pub fn Sprite::blit_sub(
   flags : BlitFlag,
 ) -> Unit {
   blit_sub_ffi(
-    get_addr(self.0),
+    self.0,
     x,
     y,
     width,
@@ -130,7 +130,7 @@ pub fn text(s : String, x : Int, y : Int) -> Unit {
   let bytes = FixedArray::make(s.length() * 4 + 1, Byte::default())
   let mut offset = 0
   s.iter().each(ch => offset += bytes.set_utf8_char(offset, ch))
-  text_ffi(get_addr(bytes), x, y)
+  text_ffi(bytes, x, y)
 }
 
 ///|
@@ -341,7 +341,7 @@ pub fn disk_write(bytes : FixedArray[Byte], size : UInt) -> Int {
     trace("Disk write size exceeds 1024 bytes")
     panic()
   }
-  diskw_ffi(get_addr(bytes), size.reinterpret_as_int())
+  diskw_ffi(bytes, size.reinterpret_as_int())
 }
 
 ///|
@@ -353,7 +353,7 @@ pub fn disk_read(bytes : FixedArray[Byte], size : UInt) -> Int {
     trace("Disk write size exceeds 1024 bytes")
     panic()
   }
-  diskr_ffi(get_addr(bytes), size.reinterpret_as_int())
+  diskr_ffi(bytes, size.reinterpret_as_int())
 }
 
 ///|
@@ -362,7 +362,7 @@ pub fn trace(s : String) -> Unit {
   let bytes = FixedArray::make(s.length() * 4 + 1, Byte::default())
   let mut offset = 0
   s.iter().each(ch => offset += bytes.set_utf8_char(offset, ch))
-  trace_ffi(get_addr(bytes))
+  trace_ffi(bytes)
 }
 
 ///|

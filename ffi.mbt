@@ -70,8 +70,10 @@ extern "wasm" fn store_i32(offset : Int, value : Int) =
   #|(func (param i32) (param i32) (i32.store (local.get 0) (local.get 1)))
 
 ///|
+#unsafe_skip_stub_check
+#borrow(sprite)
 fn blit_ffi(
-  spritePtr : Int,
+  sprite : Bytes,
   x : Int,
   y : Int,
   width : Int,
@@ -80,8 +82,10 @@ fn blit_ffi(
 ) = "env" "blit"
 
 ///|
+#unsafe_skip_stub_check
+#borrow(sprite)
 fn blit_sub_ffi(
-  spritePtr : Int,
+  sprite : Bytes,
   x : Int,
   y : Int,
   width : Int,
@@ -93,16 +97,24 @@ fn blit_sub_ffi(
 ) = "env" "blitSub"
 
 ///|
-fn text_ffi(str : Int, x : Int, y : Int) = "env" "text"
+#unsafe_skip_stub_check
+#borrow(str)
+fn text_ffi(str : FixedArray[Byte], x : Int, y : Int) = "env" "text"
 
 ///|
 fn tone_ffi(frequency : UInt, duration : UInt, volume : UInt, flags : UInt) = "env" "tone"
 
 ///|
-fn trace_ffi(offset : Int) = "env" "trace"
+#unsafe_skip_stub_check
+#borrow(offset)
+fn trace_ffi(offset : FixedArray[Byte]) = "env" "trace"
 
 ///|
-fn diskr_ffi(ptr : Int, size : Int) -> Int = "env" "diskr"
+#unsafe_skip_stub_check
+#borrow(ptr)
+fn diskr_ffi(ptr : FixedArray[Byte], size : Int) -> Int = "env" "diskr"
 
 ///|
-fn diskw_ffi(ptr : Int, size : Int) -> Int = "env" "diskw"
+#unsafe_skip_stub_check
+#borrow(ptr)
+fn diskw_ffi(ptr : FixedArray[Byte], size : Int) -> Int = "env" "diskw"
