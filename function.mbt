@@ -129,6 +129,7 @@ pub fn text(s : String, x : Int, y : Int) -> Unit {
 /// remains at the sustain volume during the sustain time, 
 /// and finally fades to zero volume during the release time.  
 /// Duration of each phase is specified in frames (1/60th of a second).
+#valtype
 pub struct ADSR {
   sustain : UInt
   release : UInt
@@ -145,7 +146,7 @@ pub struct ADSR {
 /// remains at the sustain volume during the sustain time, 
 /// and finally fades to zero volume during the release time.  
 /// Duration of each phase is specified in frames (1/60th of a second).
-pub fn ADSR::new(
+pub fn ADSR::ADSR(
   sustain : UInt,
   release? : UInt = 0,
   decay? : UInt = 0,
@@ -158,6 +159,7 @@ pub fn ADSR::new(
 /// The volume of an ADSR envelope
 /// 
 /// The volume used for the sustain duration, and the peak volume (default to 100 if zero) reached by the attack duration.
+#valtype
 pub struct ADSRVolume {
   sustain : UInt
   peak : UInt
@@ -167,7 +169,7 @@ pub struct ADSRVolume {
 /// The volume of an ADSR envelope
 /// 
 /// The volume used for the sustain duration, and the peak volume (default to 100 if zero) reached by the attack duration.
-pub fn ADSRVolume::new(sustain : UInt, peak? : UInt = 100) -> ADSRVolume {
+pub fn ADSRVolume::ADSRVolume(sustain : UInt, peak? : UInt = 100) -> ADSRVolume {
   { sustain, peak }
 }
 
@@ -176,6 +178,7 @@ pub fn ADSRVolume::new(sustain : UInt, peak? : UInt = 100) -> ADSRVolume {
 /// 
 /// @param note Specified in MIDI note format, e.g. 60 = C4, 69 = A4.  
 /// @param bend Bend note upwards. 0 = Nothing, 255 = One 256th away from the next note above
+#valtype
 pub struct Note {
   note : UInt
   bend : UInt
@@ -186,12 +189,13 @@ pub struct Note {
 /// 
 /// @param note Specified in MIDI note format, e.g. 60 = C4, 69 = A4.  
 /// @param bend Bend note upwards. 0 = Nothing, 255 = One 256th away from the next note above
-pub fn Note::new(note : UInt, bend? : UInt = 0) -> Note {
+pub fn Note::Note(note : UInt, bend? : UInt = 0) -> Note {
   { note, bend }
 }
 
 ///|
 /// Flags that modify behavior of `tone`
+#valtype
 pub struct ToneFlag {
   channel : ToneChannel
   mode : ToneMode
@@ -200,7 +204,7 @@ pub struct ToneFlag {
 
 ///|
 /// Flags that modify behavior of `tone`
-pub fn ToneFlag::new(
+pub fn ToneFlag::ToneFlag(
   channel? : ToneChannel = Pulse1,
   mode? : ToneMode = Duty_1_8,
   pan? : TonePan = Center,
