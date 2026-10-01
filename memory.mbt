@@ -88,6 +88,12 @@ pub struct GamePad {
 } derive(Eq, Default)
 
 ///|
+pub extend GamePad with Eq::{not_equal, equal}
+
+///|
+pub extend GamePad with Default::{default}
+
+///|
 /// Gets the state of the gamepads.
 /// 
 /// @param index the index of the gamepad to get, from 1 to 4 (inclusive)  
@@ -116,6 +122,12 @@ pub struct Mouse {
   middle : Bool
   right : Bool
 } derive(Eq, Default)
+
+///|
+pub extend Mouse with Eq::{not_equal, equal}
+
+///|
+pub extend Mouse with Default::{default}
 
 ///|
 /// Gets the state of the mouse.
@@ -190,7 +202,7 @@ pub struct Netplay {
 /// @return the state of the netplay
 pub fn get_netplay() -> Netplay {
   let flags = load_byte(address_NETPLAY).to_int().reinterpret_as_uint()
-  Netplay::{ index: (flags & 0b11U) + 1, active: (flags & 4U) == 4U }
+  Netplay::{ index: (flags & 0b11U) + 1, active: (flags & 4U) == 4U, }
 }
 
 ///|

@@ -167,7 +167,7 @@ pub fn ADSR::new(
   decay? : UInt = 0,
   attack? : UInt = 0,
 ) -> ADSR {
-  { sustain, release, decay, attack }
+  { sustain, release, decay, attack, }
 }
 
 ///|
@@ -184,7 +184,7 @@ pub struct ADSRVolume {
 /// 
 /// The volume used for the sustain duration, and the peak volume (default to 100 if zero) reached by the attack duration.
 pub fn ADSRVolume::new(sustain : UInt, peak? : UInt = 100) -> ADSRVolume {
-  { sustain, peak }
+  { sustain, peak, }
 }
 
 ///|
@@ -203,7 +203,7 @@ pub struct Note {
 /// @param note Specified in MIDI note format, e.g. 60 = C4, 69 = A4.  
 /// @param bend Bend note upwards. 0 = Nothing, 255 = One 256th away from the next note above
 pub fn Note::new(note : UInt, bend? : UInt = 0) -> Note {
-  { note, bend }
+  { note, bend, }
 }
 
 ///|
@@ -221,7 +221,7 @@ pub fn ToneFlag::new(
   mode? : ToneMode = Duty_1_8,
   pan? : TonePan = Center,
 ) -> ToneFlag {
-  { channel, mode, pan }
+  { channel, mode, pan, }
 }
 
 ///|
@@ -302,7 +302,7 @@ pub fn tone_note_mode(
   volume : ADSRVolume,
   flags : ToneFlag,
 ) -> Unit {
-  let higher_note = frequency.1.unwrap_or({ note: 0, bend: 0 })
+  let higher_note = frequency.1.unwrap_or({ note: 0, bend: 0, })
   let frequency = frequency.0.note |
     (frequency.0.bend << 8) |
     ((higher_note.note | (higher_note.bend << 8)) << 16)
