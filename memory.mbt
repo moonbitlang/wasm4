@@ -190,7 +190,7 @@ pub struct Netplay {
 /// @return the state of the netplay
 pub fn get_netplay() -> Netplay {
   let flags = load_byte(address_NETPLAY).to_int().reinterpret_as_uint()
-  Netplay::{ index: (flags & 0b11U) + 1, active: (flags & 4U) == 4U }
+  Netplay::{ index: (flags & 0b11U) + 1, active: (flags & 4U) == 4U, }
 }
 
 ///|
