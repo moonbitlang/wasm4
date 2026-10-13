@@ -33,7 +33,7 @@ pub(all) struct BlitFlag {
 }
 
 ///|
-fn BlitFlag::to_int(self : BlitFlag) -> Int {
+fn BlitFlag::to_int(self : BlitFlag) -> Int32 {
   (if self.one_bit_per_pixel { 0 } else { 1 }) |
   (if self.flip_x { 2 } else { 0 }) |
   (if self.flip_y { 4 } else { 0 }) |
@@ -51,10 +51,10 @@ fn BlitFlag::to_int(self : BlitFlag) -> Int {
 /// @param flags Flags that modify behavior.
 pub fn Sprite::blit(
   self : Sprite,
-  x : Int,
-  y : Int,
-  width : Int,
-  height : Int,
+  x : Int32,
+  y : Int32,
+  width : Int32,
+  height : Int32,
   flags : BlitFlag,
 ) -> Unit {
   blit_ffi(get_addr(self.0), x, y, width, height, flags.to_int())
@@ -70,13 +70,13 @@ pub fn Sprite::blit(
 /// For info on other parameters, see blit().
 pub fn Sprite::blit_sub(
   self : Sprite,
-  x : Int,
-  y : Int,
-  width : Int,
-  height : Int,
-  src_x : Int,
-  src_y : Int,
-  stride : Int,
+  x : Int32,
+  y : Int32,
+  width : Int32,
+  height : Int32,
+  src_x : Int32,
+  src_y : Int32,
+  stride : Int32,
   flags : BlitFlag,
 ) -> Unit {
   blit_sub_ffi(
@@ -97,38 +97,38 @@ pub fn Sprite::blit_sub(
 /// Draws a line between two points
 /// 
 /// `DRAW_COLORS` color 1 is used as the line color
-pub fn line(x1 : Int, y1 : Int, x2 : Int, y2 : Int) = "env" "line"
+pub fn line(x1 : Int32, y1 : Int32, x2 : Int32, y2 : Int32) = "env" "line"
 
 ///|
 /// Draws a horizontal line between `(x, y)` and `(x + len - 1, y)`
 /// 
 /// `DRAW_COLORS` color 1 is used as the line color
-pub fn hline(x : Int, y : Int, len : Int) = "env" "hline"
+pub fn hline(x : Int32, y : Int32, len : Int32) = "env" "hline"
 
 ///|
 /// Draws a vertical line between `(x, y)` and `(x, y + len - 1)`
 /// 
 /// `DRAW_COLORS` color 1 is used as the line color
-pub fn vline(x : Int, y : Int, len : Int) = "env" "vline"
+pub fn vline(x : Int32, y : Int32, len : Int32) = "env" "vline"
 
 ///|
 /// Draws an oval (or circle).
 /// 
 /// `DRAW_COLORS` color 1 is used as the fill color, `DRAW_COLORS` color 2 is used as the outline color.
-pub fn oval(x : Int, y : Int, width : Int, height : Int) = "env" "oval"
+pub fn oval(x : Int32, y : Int32, width : Int32, height : Int32) = "env" "oval"
 
 ///|
 /// Draws a rectangle.
 /// 
 /// `DRAW_COLORS` color 1 is used as the fill color, `DRAW_COLORS` color 2 is used as the outline color.
-pub fn rect(x : Int, y : Int, width : Int, height : Int) = "env" "rect"
+pub fn rect(x : Int32, y : Int32, width : Int32, height : Int32) = "env" "rect"
 
 ///|
 /// Draws text using the built-in system font. The string may contain new-line (`\n`) characters.
 /// 
 /// The font is 8x8 pixels per character  
 /// `DRAW_COLORS` color 1 is used as the text color, `DRAW_COLORS` color 2 is used as the background color.
-pub fn text(s : String, x : Int, y : Int) -> Unit {
+pub fn text(s : String, x : Int32, y : Int32) -> Unit {
   let bytes = FixedArray::make(s.length() * 4 + 1, Byte::default())
   let mut offset = 0
   s.iter().each(ch => offset += bytes.set_utf8_char(offset, ch))
@@ -146,10 +146,10 @@ pub fn text(s : String, x : Int, y : Int) -> Unit {
 /// and finally fades to zero volume during the release time.  
 /// Duration of each phase is specified in frames (1/60th of a second).
 pub struct ADSR {
-  sustain : UInt
-  release : UInt
-  decay : UInt
-  attack : UInt
+  sustain : UInt32
+  release : UInt32
+  decay : UInt32
+  attack : UInt32
 }
 
 ///|
@@ -162,10 +162,10 @@ pub struct ADSR {
 /// and finally fades to zero volume during the release time.  
 /// Duration of each phase is specified in frames (1/60th of a second).
 pub fn ADSR::new(
-  sustain : UInt,
-  release? : UInt = 0,
-  decay? : UInt = 0,
-  attack? : UInt = 0,
+  sustain : UInt32,
+  release~ : UInt32 = 0,
+  decay~ : UInt32 = 0,
+  attack~ : UInt32 = 0,
 ) -> ADSR {
   { sustain, release, decay, attack, }
 }
@@ -175,15 +175,15 @@ pub fn ADSR::new(
 /// 
 /// The volume used for the sustain duration, and the peak volume (default to 100 if zero) reached by the attack duration.
 pub struct ADSRVolume {
-  sustain : UInt
-  peak : UInt
+  sustain : UInt32
+  peak : UInt32
 }
 
 ///|
 /// The volume of an ADSR envelope
 /// 
 /// The volume used for the sustain duration, and the peak volume (default to 100 if zero) reached by the attack duration.
-pub fn ADSRVolume::new(sustain : UInt, peak? : UInt = 100) -> ADSRVolume {
+pub fn ADSRVolume::new(sustain : UInt32, peak~ : UInt32 = 100) -> ADSRVolume {
   { sustain, peak, }
 }
 
@@ -193,8 +193,8 @@ pub fn ADSRVolume::new(sustain : UInt, peak? : UInt = 100) -> ADSRVolume {
 /// @param note Specified in MIDI note format, e.g. 60 = C4, 69 = A4.  
 /// @param bend Bend note upwards. 0 = Nothing, 255 = One 256th away from the next note above
 pub struct Note {
-  note : UInt
-  bend : UInt
+  note : UInt32
+  bend : UInt32
 }
 
 ///|
@@ -202,7 +202,7 @@ pub struct Note {
 /// 
 /// @param note Specified in MIDI note format, e.g. 60 = C4, 69 = A4.  
 /// @param bend Bend note upwards. 0 = Nothing, 255 = One 256th away from the next note above
-pub fn Note::new(note : UInt, bend? : UInt = 0) -> Note {
+pub fn Note::new(note : UInt32, bend~ : UInt32 = 0) -> Note {
   { note, bend, }
 }
 
@@ -217,9 +217,9 @@ pub struct ToneFlag {
 ///|
 /// Flags that modify behavior of `tone`
 pub fn ToneFlag::new(
-  channel? : ToneChannel = Pulse1,
-  mode? : ToneMode = Duty_1_8,
-  pan? : TonePan = Center,
+  channel~ : ToneChannel = Pulse1,
+  mode~ : ToneMode = Duty_1_8,
+  pan~ : TonePan = Center,
 ) -> ToneFlag {
   { channel, mode, pan, }
 }
@@ -255,7 +255,7 @@ pub(all) enum TonePan {
 /// @param volume Volume of the sustain and attack durations, between 0 and 100  
 /// @param flags Flags that modify behavior
 pub fn tone(
-  frequency : (UInt, UInt),
+  frequency : (UInt32, UInt32),
   duration : ADSR,
   volume : ADSRVolume,
   flags : ToneFlag,
@@ -339,7 +339,7 @@ pub fn tone_note_mode(
 ///
 /// Any previously saved data on the disk is replaced.
 /// @return the number of bytes written, which may be less than `size`.
-pub fn disk_write(bytes : FixedArray[Byte], size : UInt) -> Int {
+pub fn disk_write(bytes : FixedArray[Byte], size : UInt32) -> Int32 {
   if size > 1024 {
     trace("Disk write size exceeds 1024 bytes")
     panic()
@@ -351,7 +351,7 @@ pub fn disk_write(bytes : FixedArray[Byte], size : UInt) -> Int {
 /// Reads up to `size` bytes from persistent storage into `bytes`.
 /// 
 /// @return the number of bytes read, which may be less than `size`
-pub fn disk_read(bytes : FixedArray[Byte], size : UInt) -> Int {
+pub fn disk_read(bytes : FixedArray[Byte], size : UInt32) -> Int32 {
   if size > 1024 {
     trace("Disk write size exceeds 1024 bytes")
     panic()

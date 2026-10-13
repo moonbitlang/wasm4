@@ -20,8 +20,8 @@ jobs:
         run: |
           moon check
           moon check --target wasm
-          moon check --source-dir example/snake
-          moon check --source-dir example/snake --target wasm
+          moon -C example/snake check
+          moon -C example/snake check --target wasm
       - name: publish
         run: |
           rm -r example
