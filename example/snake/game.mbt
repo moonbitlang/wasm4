@@ -14,7 +14,7 @@
 //  limitations under the License.
 
 ///|
-let random : @random.Rand = @random.Rand::new()
+let random : @random.Rand = @random.Rand()
 
 ///|
 let fruit : @wasm4.Sprite = @wasm4.sprite(
@@ -24,7 +24,7 @@ let fruit : @wasm4.Sprite = @wasm4.sprite(
 ///|
 pub(all) struct Game {
   snake : Snake
-  mut frame_count : UInt
+  mut frame_count : UInt32
   mut prev_gamepad : @wasm4.GamePad
   mut fruit : Point
 }
@@ -35,7 +35,7 @@ pub fn Game::new() -> Game {
     snake: Snake::new(),
     frame_count: 0,
     prev_gamepad: @wasm4.GamePad::default(),
-    fruit: Point::{ x: random.int(limit=20), y: random.int(limit=20) },
+    fruit: Point::{ x: random.int(limit=20), y: random.int(limit=20), },
   }
 }
 
@@ -59,7 +59,7 @@ pub fn Game::update(self : Game) -> Unit {
         Some(pos) => self.snake.body.push_back(pos)
         None => ()
       }
-      self.fruit = Point::{ x: random.int(limit=20), y: random.int(limit=20) }
+      self.fruit = Point::{ x: random.int(limit=20), y: random.int(limit=20), }
     }
   }
   self.snake.draw()

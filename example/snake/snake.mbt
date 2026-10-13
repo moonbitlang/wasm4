@@ -15,9 +15,12 @@
 
 ///|
 pub(all) struct Point {
-  x : Int
-  y : Int
+  x : Int32
+  y : Int32
 } derive(Eq)
+
+///|
+pub extend Point with Eq::{not_equal, equal}
 
 ///|
 pub(all) struct Snake {
@@ -29,11 +32,11 @@ pub(all) struct Snake {
 pub fn Snake::new() -> Snake {
   {
     body: @deque.from_array([
-      Point::{ x: 2, y: 0 },
-      Point::{ x: 1, y: 0 },
-      Point::{ x: 0, y: 0 },
+      Point::{ x: 2, y: 0, },
+      Point::{ x: 1, y: 0, },
+      Point::{ x: 0, y: 0, },
     ]),
-    direction: Point::{ x: 1, y: 0 },
+    direction: Point::{ x: 1, y: 0, },
   }
 }
 
@@ -44,14 +47,14 @@ pub fn Snake::draw(self : Snake) -> Unit {
   self.body
   .iter()
   .each(p => {
-    let { x, y } = p
+    let { x, y, } = p
     @wasm4.rect(x * 8, y * 8, 8, 8)
   })
   @wasm4.set_draw_colors(4)
   self.body
   .front()
   .map(p => {
-    let { x, y } = p
+    let { x, y, } = p
     @wasm4.rect(x * 8, y * 8, 8, 8)
   })
   |> ignore
@@ -70,28 +73,28 @@ pub fn Snake::update(self : Snake) -> Point? {
 ///|
 pub fn Snake::up(self : Snake) -> Unit {
   if self.direction.y == 0 {
-    self.direction = Point::{ x: 0, y: -1 }
+    self.direction = Point::{ x: 0, y: -1, }
   }
 }
 
 ///|
 pub fn Snake::down(self : Snake) -> Unit {
   if self.direction.y == 0 {
-    self.direction = Point::{ x: 0, y: 1 }
+    self.direction = Point::{ x: 0, y: 1, }
   }
 }
 
 ///|
 pub fn Snake::left(self : Snake) -> Unit {
   if self.direction.x == 0 {
-    self.direction = Point::{ x: -1, y: 0 }
+    self.direction = Point::{ x: -1, y: 0, }
   }
 }
 
 ///|
 pub fn Snake::right(self : Snake) -> Unit {
   if self.direction.x == 0 {
-    self.direction = Point::{ x: 1, y: 0 }
+    self.direction = Point::{ x: 1, y: 0, }
   }
 }
 

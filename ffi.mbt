@@ -42,67 +42,72 @@ let address_NETPLAY = 0x20
 let address_FRAMEBUFFER = 0xa0
 
 ///|
-extern "wasm" fn load_byte(offset : Int) -> Byte =
+extern "wasm" fn load_byte(offset : Int32) -> Byte =
   #|(func (param i32) (result i32) (i32.load8_u (local.get 0)))
 
 ///|
-extern "wasm" fn store_byte(offset : Int, byte : Byte) =
+extern "wasm" fn store_byte(offset : Int32, byte : Byte) =
   #|(func (param i32) (param i32) (i32.store8 (local.get 0) (local.get 1)))
 
 ///|
-extern "wasm" fn load_s16(offset : Int) -> Int =
+extern "wasm" fn load_s16(offset : Int32) -> Int32 =
   #|(func (param i32) (result i32) (i32.load16_s (local.get 0)))
 
 ///|
-extern "wasm" fn load_u16(offset : Int) -> UInt =
+extern "wasm" fn load_u16(offset : Int32) -> UInt32 =
   #|(func (param i32) (result i32) (i32.load16_u (local.get 0)))
 
 ///|
-extern "wasm" fn store_i16(offset : Int, value : Int) =
+extern "wasm" fn store_i16(offset : Int32, value : Int32) =
   #|(func (param i32) (param i32) (i32.store16 (local.get 0) (local.get 1)))
 
 ///|
-extern "wasm" fn load_s32(offset : Int) -> Int =
+extern "wasm" fn load_s32(offset : Int32) -> Int32 =
   #|(func (param i32) (result i32) (i32.load (local.get 0)))
 
 ///|
-extern "wasm" fn store_i32(offset : Int, value : Int) =
+extern "wasm" fn store_i32(offset : Int32, value : Int32) =
   #|(func (param i32) (param i32) (i32.store (local.get 0) (local.get 1)))
 
 ///|
 fn blit_ffi(
-  spritePtr : Int,
-  x : Int,
-  y : Int,
-  width : Int,
-  height : Int,
-  flags : Int,
+  spritePtr : Int32,
+  x : Int32,
+  y : Int32,
+  width : Int32,
+  height : Int32,
+  flags : Int32,
 ) = "env" "blit"
 
 ///|
 fn blit_sub_ffi(
-  spritePtr : Int,
-  x : Int,
-  y : Int,
-  width : Int,
-  height : Int,
-  src_x : Int,
-  src_y : Int,
-  stride : Int,
-  flags : Int,
+  spritePtr : Int32,
+  x : Int32,
+  y : Int32,
+  width : Int32,
+  height : Int32,
+  src_x : Int32,
+  src_y : Int32,
+  stride : Int32,
+  flags : Int32,
 ) = "env" "blitSub"
 
 ///|
-fn text_ffi(str : Int, x : Int, y : Int) = "env" "text"
+fn text_ffi(str : Int32, x : Int32, y : Int32) = "env" "text"
 
 ///|
-fn tone_ffi(frequency : UInt, duration : UInt, volume : UInt, flags : UInt) = "env" "tone"
+fn tone_ffi(
+  frequency : UInt32,
+  duration : UInt32,
+  volume : UInt32,
+  flags : UInt32,
+) = "env" "tone"
 
 ///|
-fn trace_ffi(offset : Int) = "env" "trace"
+fn trace_ffi(offset : Int32) = "env" "trace"
 
 ///|
-fn diskr_ffi(ptr : Int, size : Int) -> Int = "env" "diskr"
+fn diskr_ffi(ptr : Int32, size : Int32) -> Int32 = "env" "diskr"
 
 ///|
-fn diskw_ffi(ptr : Int, size : Int) -> Int = "env" "diskw"
+fn diskw_ffi(ptr : Int32, size : Int32) -> Int32 = "env" "diskw"

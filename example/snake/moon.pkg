@@ -1,0 +1,19 @@
+import {
+  "moonbitlang/core/deque",
+  "moonbitlang/core/random",
+  "moonbitlang/wasm4",
+}
+
+options(
+  link: {
+    "wasm-gc": {
+      "exports": [ "start", "upd:update" ],
+      "import-memory": { "module": "env", "name": "memory" },
+    },
+    "wasm": {
+      "exports": [ "start", "upd:update" ],
+      "import-memory": { "module": "env", "name": "memory" },
+      "heap-start-address": 6560,
+    },
+  },
+)
